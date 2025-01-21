@@ -2,6 +2,7 @@ package com.x1oto.deviark_intership_1_1
 
 import android.util.Log
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import com.x1oto.deviark_intership_1_1.models.Book
+import com.x1oto.deviark_intership_1_1.models.Genre
+import com.x1oto.deviark_intership_1_1.models.State
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -39,22 +43,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d("Deviark", "Loading...")
                 }
                 is State.Success -> {
-                    Log.d("Deviark", "Fetched successfully: ${state.data}")
+                    // Test any fun here, using Database. syntax
 
-                    val newBook = Book(11, "The Catcher in the Rye", Genre.CLASSIC, 1951)
-                    Database.addBook(newBook)
-                    Log.d("Deviark", "Added book: ${newBook.title}")
-
-                    val searchResults = Database.searchBooks("Classic")
-                    Log.d("Deviark", "Search results for 'Classic':")
-                    searchResults.forEach { Log.d("Deviark", "- ${it.title}") }
-
-                    val borrowed = Database.borrowBook(1)
-                    Log.d("Deviark", if (borrowed) "Successfully borrowed book with ID 1" else "Failed to borrow book with ID 1")
-
-                    val returnBook = Book(1, "Kotlin in Action", Genre.PROGRAMMING, 2017)
-                    Database.returnBook(returnBook)
-                    Log.d("Deviark", "Returned book ID: ${returnBook.id}")
                 }
             }
         }
@@ -72,10 +62,4 @@ class MainActivity : AppCompatActivity() {
                 }
         }
     }
-}
-
-sealed interface State {
-    object Loading: State
-    class Success(val data: List<Book>): State
-    class Error(val message: String): State
 }
