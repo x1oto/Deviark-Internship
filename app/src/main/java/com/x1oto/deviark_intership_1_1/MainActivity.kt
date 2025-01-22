@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.x1oto.deviark_intership_1_1.models.Book
+import com.x1oto.deviark_intership_1_1.models.Criteria
 import com.x1oto.deviark_intership_1_1.models.Genre
 import com.x1oto.deviark_intership_1_1.models.State
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +45,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 is State.Success -> {
                     // Test any fun here, using Database. syntax
-
+                    Database.countBy(Criteria.TITLE)
+                    Log.d("HHH", Database.countBy(Criteria.TITLE).toString())
                 }
             }
         }

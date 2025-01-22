@@ -86,12 +86,12 @@ object Database {
     }
 
     // Count total books by genre, by author
-    fun countBy(criteria: Criteria): Int {
+    fun countBy(criteria: Criteria): Map<out Any, Int> { // Compiler set out.
         return when(criteria) {
-            Criteria.TITLE -> books.sortedBy { it.title }.count()
-            Criteria.YEAR -> books.sortedBy { it.year }.count()
-            Criteria.GENRE -> books.sortedBy { it.genre }.count()
-            Criteria.AUTHOR -> books.sortedBy { it.author }.count()
+            Criteria.TITLE -> books.groupBy { it.title }.mapValues { (_, list) -> list.size }
+            Criteria.YEAR -> books.groupBy { it.year }.mapValues { (_, list) -> list.size }
+            Criteria.GENRE -> books.groupBy { it.genre }.mapValues { (_, list) -> list.size }
+            Criteria.AUTHOR -> books.groupBy { it.author }.mapValues { (_, list) -> list.size }
         }
     }
 
