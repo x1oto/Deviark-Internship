@@ -27,13 +27,11 @@ object Database {
         Book(10, "Crime and Punishment", "Fyodor Dostoevsky", Genre.CLASSIC, 1866, 12)
     )
 
-    // Deleted suspendCancelableCoroutine. Reason: Overkill
-    // Instead using delay() with return withContext.
-    suspend fun getBooks(): Result<List<Book>> {
+    suspend fun fetchBooks(): Result<List<Book>> {
         return withContext(Dispatchers.IO) {
             val random = Random.nextInt(100)
             delay(2000)
-            if(random in 0..70) {
+            if (random in 0..100) {
                 Result.success(books)
             } else {
                 Result.failure(Exception(ERROR))
@@ -41,15 +39,15 @@ object Database {
         }
     }
 
-    fun addBook(book: Book) {
+    fun addNewBook(book: Book) {
         books.add(book)
     }
 
-    fun searchBooks(query: String): List<Book> {
+    fun searchBooksByQuery(query: String): List<Book> {
         return books.filter { it.title.contains(query, ignoreCase = true) || it.genre.name.contains(query, ignoreCase = true) }
     }
 
-    fun borrowBook(id: Long): Boolean {
+    fun borrowBookById(id: Long): Boolean {
         val book = books.find { it.id == id && it.isBorrowed.not() }
         book?.let {
             it.borrowCount++
@@ -60,7 +58,7 @@ object Database {
         return false
     }
 
-    fun returnBook(id: Long): Boolean {
+    fun returnBorrowedBook(id: Long): Boolean {
         val book = books.find { it.id == id && it.isBorrowed }
         book?.let {
             it.isBorrowed = false
@@ -69,15 +67,15 @@ object Database {
         return false
     }
 
-    // Group books by Genre.
-    fun groupBooks(): Map<Genre, List<Book>> {
+    suspend fun groupBooksByGenre(): Map<Genre, List<Book>> {
+        delay(2500)
         return books.groupBy { it.genre }
     }
 
-    // Add sorting by title, release date, or price. For each sorting order show available first
-    fun sortBy(criteria: Criteria): List<Book> {
+    suspend fun sortBooksByCriteria(criteria: Criteria): List<Book> {
+        delay(2500)
         val sortedByAvailability = books.sortedBy { it.isBorrowed }
-        return when(criteria) {
+        return when (criteria) {
             Criteria.TITLE -> sortedByAvailability.sortedBy { it.title }
             Criteria.YEAR -> sortedByAvailability.sortedBy { it.year }
             Criteria.GENRE -> sortedByAvailability.sortedBy { it.genre }
@@ -85,9 +83,9 @@ object Database {
         }
     }
 
-    // Count total books by genre, by author
-    fun countBy(criteria: Criteria): Map<out Any, Int> { // Compiler set out.
-        return when(criteria) {
+    suspend fun countBooksByCriteria(criteria: Criteria): Map<out Any, Int> {
+        delay(2500)
+        return when (criteria) {
             Criteria.TITLE -> books.groupBy { it.title }.mapValues { (_, list) -> list.size }
             Criteria.YEAR -> books.groupBy { it.year }.mapValues { (_, list) -> list.size }
             Criteria.GENRE -> books.groupBy { it.genre }.mapValues { (_, list) -> list.size }
@@ -95,56 +93,40 @@ object Database {
         }
     }
 
-    // show most popular(borrow count) books.
-    fun sortPopular(): List<Book> {
+    suspend fun getMostPopularBooks(): List<Book> {
+        delay(2500)
         return books.sortedByDescending { it.borrowCount }
     }
 
-    // Filter books by author or availability.
-    fun filterByAvailability(): List<Book> {
-        return books.filter { it.isBorrowed == false }
+    suspend fun getAvailableBooks(): List<Book> {
+        delay(2500)
+        return books.filter { it.isBorrowed.not() }
     }
 
-    // Filter books by author or availability.
-    private fun filterByNonAvailability(): List<Book> {
-        return books.filter { it.isBorrowed == true }
+    suspend fun getBorrowedBooks(): List<Book> {
+        delay(2500)
+        return books.filter { it.isBorrowed }
     }
 
-    // Filter books by author or availability.
-    fun filterByAuthor(author: String): List<Book> {
+    suspend fun filterBooksByAuthor(author: String): List<Book> {
+        delay(2500)
         return books.filter { it.author == author }
     }
 
-    // Extract all unique authors.
-    fun uniqueAuthors(): Set<String> {
+    suspend fun fetchUniqueAuthors(): Set<String> {
+        delay(2500)
         return books.map { it.author }.toSet()
     }
 
-    // Create a summary report for borrowed books count by genre.
-    /**
-     * Cool method that allows us, to change the values in existing map.
-     * So basically, this fun might look like this.
-     *
-     *     fun getSummaryReport(): MutableMap<Genre, Int> {
-     *         val grouped = groupBooks()
-     *         val summary = mutableMapOf<Genre, Int>()
-     *
-     *         for((key, values) in grouped.entries) {
-     *             summary.put(key, values.sumOf { it.borrowCount })
-     *         }
-     *
-     *         return summary
-     *     }
-     *
-     */
-    fun getSummaryReport(): Map<Genre, Int> {
-        return groupBooks().mapValues { (_, books) ->
+    suspend fun generateBorrowSummaryReport(): Map<Genre, Int> {
+        delay(2500)
+        return groupBooksByGenre().mapValues { (_, books) ->
             books.sumOf { it.borrowCount }
         }
     }
 
-    // trending(last 5 min or another testable time) author
-    fun trendingAuthors(durationInMillis: Long = 5 * 60 * 1000): List<String> {
+    suspend fun getTrendingAuthors(durationInMillis: Long = 5 * 60 * 1000): List<String> {
+        delay(2500)
         val currentTime = System.currentTimeMillis()
         val recentBorrowedBooks = books.filter { book ->
             book.lastBorrowedTimestamp?.let {
@@ -157,6 +139,5 @@ object Database {
             .sortedByDescending { it.value.size }
             .map { it.key }
     }
-
 }
 

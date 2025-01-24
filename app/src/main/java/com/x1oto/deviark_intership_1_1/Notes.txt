@@ -1,0 +1,54 @@
+My notes from Lesson 3. Lifecycles and coroutines.
+
+In general we have 4 threads. Most usable: Main, IO, Default.
+
+    IO - heavy tasks on background
+    Default - light tasks on background
+
+suspend fun - fun that can be stopped at any moment of the time.
+
+An individual in task manager is called task.
+
+Imagine, that we have one activity. And we wanna to start one more that redirecting us exactly to
+Google. (Meanwhile, if we open task manager we will see our app preview as Google.)
+So, how can we get back without calling onCreate()?
+
+Basically here is two possible solutions:
+
+   1. We can add in manifest tag to that activity.
+        android:launchMode="singleTask"
+
+   Although setting the launch mode to singleTask will work, use of that launch mode is discouraged.
+   The documentation for launch mode indicates singleTask is "not recommended for general use". :(
+
+   2. I have 3 activity . Activity A ,Activity B, Activity C.
+   This is the flow A->B->C. Now i want to come to activity A from C .
+   (i.e C->A) without getting its onCreate() called of Activity A.
+
+   The desired behavior can be achieved using Intent flags FLAG_ACTIVITY_CLEAR_TOP and FLAG_ACTIVITY_SINGLE_TOP:
+
+       Intent intent=new Intent(ActivityC.this,ActivityA.class);
+       intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+       startActivity(intent);
+       finish();
+
+   Activity A will not be recreated and will receive the intent via onNewIntent().
+
+   Note: OnCreateView is for simple logic. Such as inflating layout. Sometimes even onClickers may
+   be to heavy.
+
+Coroutines.
+
+Coroutine can be cancelled only when it hasn't any work. And even here we cannot be one hundred sure.
+
+    val job = launch {
+        println("Launch task running")
+    }
+    job.cancel()
+
+
+
+
+
+
+

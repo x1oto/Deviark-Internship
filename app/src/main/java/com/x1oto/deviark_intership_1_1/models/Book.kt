@@ -9,5 +9,4 @@ data class Book(
     var borrowCount: Int = 0,
     var isBorrowed: Boolean = false,
     var lastBorrowedTimestamp: Long? = null
-
 )
