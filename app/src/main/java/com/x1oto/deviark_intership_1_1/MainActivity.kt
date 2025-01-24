@@ -145,4 +145,22 @@ class MainActivity : AppCompatActivity() {
                 }
         }
     }
+
+    // Try to catch onPause.
+    // Basically it triggers when foreign service trying to cover your app.
+    // Like google assistant, call, permissions.
+    override fun onPause() {
+        super.onPause()
+        println("lifecycle onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("lifecycle onStop()")
+    }
+
+    // How to trigger activity without onCreate call?
+    // launchMode
+    // Flags
+    // Day-Night mode switch
 }
