@@ -2,13 +2,16 @@ package com.x1oto.deviark_intership_1_1
 
 import android.util.Log
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import com.x1oto.deviark_intership_1_1.models.Book
 import com.x1oto.deviark_intership_1_1.models.State
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -44,56 +47,20 @@ class MainActivity : AppCompatActivity() {
                 }
                 is State.Success -> {
                     // Test any fun here, using Database. syntax
-
+                    paginationSimultaneouslyManyCall()
 
                 }
             }
         }
     }
 
-    private fun parallelHardcodedUsingAsync() = lifecycleScope.launch {
-        println("Async | Launch root | ${Thread.currentThread().name}")
+    // Upd: I have deleted hardcoded realizations for task 1.3-1.4
+    // Search them at 1-3--1-4 branch.
 
-        val summaryDeferred = async(Dispatchers.Default) {
-            val startTime = System.currentTimeMillis()
-            println("Async 1 | ${Thread.currentThread().name}")
-            Database.generateBorrowSummaryReport()
-            val endTime = System.currentTimeMillis()
-            endTime - startTime
-        }
+    // Here's advanced realization of 1-3--1-4:
+    // You can also find them at 1-3--1-4 branch:
 
-        val popularDeferred = async(Dispatchers.Default) {
-            val startTime = System.currentTimeMillis()
-            println("Async 2 | ${Thread.currentThread().name}")
-            Database.getMostPopularBooks()
-            val endTime = System.currentTimeMillis()
-            endTime - startTime
-        }
-
-        awaitAll(summaryDeferred, popularDeferred)
-            .forEachIndexed { i, v -> println("Async | End time async ${i + 1}: $v") }
-    }
-
-    private fun parallelHardcodedUsingLaunch() = lifecycleScope.launch {
-        println("Launch | Launch root | ${Thread.currentThread().name}")
-
-        val summary = launch(Dispatchers.Default) {
-            val startTime = System.currentTimeMillis()
-            println("Launch 1 | ${Thread.currentThread().name}")
-            Database.generateBorrowSummaryReport()
-            val endTime = System.currentTimeMillis()
-            println("Launch | End time launch 1: ${endTime - startTime}")
-        }
-
-        val popular = launch(Dispatchers.Default) {
-            val startTime = System.currentTimeMillis()
-            println("Launch 2 | ${Thread.currentThread().name}")
-            Database.getMostPopularBooks()
-            val endTime = System.currentTimeMillis()
-            println("Launch | End time launch 2: ${endTime - startTime}")
-        }
-    }
-
+    // 1.3-1.4
     fun parallel(vararg tasks: suspend () -> Unit) = lifecycleScope.launch {
         tasks.map { task ->
             async(Dispatchers.Default) {
@@ -102,35 +69,42 @@ class MainActivity : AppCompatActivity() {
         }.awaitAll()
     }
 
-    private fun sequentiallyHardcoded() = lifecycleScope.launch {
-        println("Launch | Launch root | ${Thread.currentThread().name}")
-
-        val summary = launch(Dispatchers.Default) {
-            val startTime = System.currentTimeMillis()
-            println("Launch 1 | ${Thread.currentThread().name}")
-            Database.generateBorrowSummaryReport()
-            val endTime = System.currentTimeMillis()
-            endTime - startTime
-            println("Launch | End time launch 1: ${endTime - startTime}")
-        }.join()
-
-        val popular = launch(Dispatchers.Default) {
-            val startTime = System.currentTimeMillis()
-            println("Launch 2 | ${Thread.currentThread().name}")
-            Database.getMostPopularBooks()
-            val endTime = System.currentTimeMillis()
-            endTime - startTime
-            println("Launch | End time launch 2: ${endTime - startTime}")
-        }.join()
-
-    }
-
+    // 1.3-1.4
     fun sequentially(vararg tasks: suspend () -> Unit) = lifecycleScope.launch {
         for (task in tasks) {
             launch(Dispatchers.Default) {
                 task()
             }.join()
         }
+    }
+
+    // 1.5 Два запити.
+    private fun paginationSimultaneouslyTwoCall() = lifecycleScope.launch {
+        // Запускаємо перший async, він працює, батьківський потік не блокуєтсья
+        val page1 = async(Dispatchers.Default) {
+            Database.getByPage(1)
+        }
+        // Запускаємо другий async, він працює, батьківський потік не блокуєтсья
+        val page2 = async(Dispatchers.Default) {
+            Database.getByPage(2)
+        }
+
+        // Тут за допомогою awaitAll() очікуємо на них
+        println(awaitAll(page1, page2))
+    }
+
+    // 1.5
+    private fun paginationSimultaneouslyManyCall() = lifecycleScope.launch {
+        val deferred = mutableListOf<Deferred<List<Book>?>>()
+        // Запускаємо 15 async, і додаємо їхні Deffered в ORDERED список, щоб зберегти послідовність
+        repeat(15) { i ->
+            deferred.add(async(Dispatchers.Default) {
+                Database.getByPage(i + 1)
+            })
+        }
+        // Накидуємо на ці deffered await, і після закінчення отримаємо послідовний список.
+        // Ensure order is saved +
+        val result = deferred.awaitAll()
     }
 
     private fun getBooks() {
@@ -146,21 +120,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Try to catch onPause.
-    // Basically it triggers when foreign service trying to cover your app.
-    // Like google assistant, call, permissions.
-    override fun onPause() {
-        super.onPause()
-        println("lifecycle onPause()")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        println("lifecycle onStop()")
-    }
-
-    // How to trigger activity without onCreate call?
-    // launchMode
-    // Flags
-    // Day-Night mode switch
 }
