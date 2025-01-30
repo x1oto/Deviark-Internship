@@ -24,7 +24,7 @@ class HomeViewModel : ViewModel() {
 
     fun send(event: HomeEvent) {
         when (event) {
-            HomeEvent.ClearSortingCriteria -> {
+            HomeEvent.ClearSortingEvent -> {
                 fetchBooks()
             }
 
@@ -35,15 +35,24 @@ class HomeViewModel : ViewModel() {
             HomeEvent.GetLessPopularEvent -> {
                 getLessPopularEvent()
             }
+
+            is HomeEvent.SearchEvent -> {
+                getBookByQuery(event.query)
+            }
+
+            HomeEvent.IncrementCountEvent -> { incrementFirstIndex() }
         }
     }
 
     private fun fetchBooks() {
+        if(_homeLiveData.value is HomeState.Loading) {
+            return
+        }
         _homeLiveData.value = HomeState.Loading
         viewModelScope.launch {
             Database.fetchBooks()
                 .onSuccess { books ->
-                    _homeLiveData.value = HomeState.FetchBooksSuccess(books = books)
+                    _homeLiveData.value = HomeState.Data(books = books)
                 }
                 .onFailure { e ->
                     _homeLiveData.value = HomeState.Error(e.message.toString())
@@ -52,11 +61,14 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun getMostPopularBook() {
+        if(_homeLiveData.value is HomeState.Loading) {
+            return
+        }
         _homeLiveData.value = HomeState.Loading
         viewModelScope.launch {
             Database.getMostPopularBooks()
                 .onSuccess { books ->
-                    _homeLiveData.value = HomeState.FetchPopularBooksSuccess(books = books)
+                    _homeLiveData.value = HomeState.Data(books = books)
                 }
                 .onFailure { e ->
                     _homeLiveData.value = HomeState.Error(e.message.toString())
@@ -65,15 +77,51 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun getLessPopularEvent() {
+        if(_homeLiveData.value is HomeState.Loading) {
+            return
+        }
         _homeLiveData.value = HomeState.Loading
         viewModelScope.launch {
             Database.getLessPopularBooks()
                 .onSuccess { books ->
-                    _homeLiveData.value = HomeState.FetchUnPopularBooksSuccess(books = books)
+                    _homeLiveData.value = HomeState.Data(books = books)
                 }
                 .onFailure { e ->
                     _homeLiveData.value = HomeState.Error(e.message.toString())
                 }
         }
+    }
+
+    private fun getBookByQuery(query: String) {
+        if(_homeLiveData.value is HomeState.Loading) {
+            return
+        }
+        _homeLiveData.value = HomeState.Loading
+        viewModelScope.launch {
+            Database.searchBooksByQuery(query)
+                .onSuccess { books ->
+                    _homeLiveData.value = HomeState.Data(books = books)
+                }
+                .onFailure { e ->
+                    _homeLiveData.value = HomeState.Error(e.message.toString())
+                }
+        }
+    }
+
+    private fun incrementFirstIndex() {
+        val currentState = _homeLiveData.value
+        if(currentState is HomeState.Data) {
+            viewModelScope.launch {
+                if (currentState.books.isEmpty()) {
+                    _homeLiveData.value = HomeState.Error("Cannot increment, somehow books list is empty")
+                } else {
+                    val updatedBooks = currentState.books.toMutableList().apply {
+                        this[0] = this[0].copy(borrowCount = this[0].borrowCount + 1)
+                    }
+                    _homeLiveData.value = HomeState.Data(books = updatedBooks)
+                }
+            }
+        }
+
     }
 }

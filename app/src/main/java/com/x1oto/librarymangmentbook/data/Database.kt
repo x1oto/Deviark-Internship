@@ -2,6 +2,7 @@ package com.x1oto.librarymangmentbook.data
 
 import com.x1oto.librarymangmentbook.data.Constants.FETCH_BOOKS_ERROR
 import com.x1oto.librarymangmentbook.data.Constants.FETCH_POPULAR_BOOKS_ERROR
+import com.x1oto.librarymangmentbook.data.Constants.UPLOAD_BOOKS_ERROR
 import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -10,7 +11,7 @@ import kotlin.random.Random
 
 object Database {
 
-    private val books = mutableListOf(
+    private var books = mutableListOf(
         Book(
             1,
             "Kotlin in Action",
@@ -64,6 +65,7 @@ object Database {
         Book(30, "Algorithm Design Manual", "Steven S. Skiena", Genre.ALGORITHMS, 2008, 7)
     )
 
+    // Imitation of query
     suspend fun fetchBooks(term: Long = 2500): Result<List<Book>> {
         return withContext(Dispatchers.Default) {
             val chance = generateRandomInt()
@@ -75,6 +77,24 @@ object Database {
 
                 else -> {
                     Result.failure(Exception(FETCH_BOOKS_ERROR))
+                }
+            }
+        }
+    }
+
+    // Backend upload imitation
+    suspend fun updateBooks(updatedBooks: MutableList<Book>, term: Long = 2500): Result<Boolean> {
+        return withContext(Dispatchers.Default) {
+            val chance = generateRandomInt()
+            delay(term)
+            when (chance) {
+                in 0..90 -> {
+                    books = updatedBooks
+                    Result.success(true)
+                }
+
+                else -> {
+                    Result.failure(Exception(UPLOAD_BOOKS_ERROR))
                 }
             }
         }
@@ -114,7 +134,7 @@ object Database {
         }
     }
 
-    suspend fun searchBooksByQuery(query: String, term: Long = 1000): Result<List<Book>> {
+    suspend fun searchBooksByQuery(query: String, term: Long = 2000): Result<List<Book>> {
         return withContext(Dispatchers.Default) {
             val chance = generateRandomInt()
             delay(term)

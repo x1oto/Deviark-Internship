@@ -5,7 +5,6 @@ import com.x1oto.librarymangmentbook.data.Database
 
 class NotificationPresenter(private val view: NotificationView) {
 
-    // Which lifecycle? Making suspend...
     suspend fun getBookByQuery(query: String) {
         view.showLoading()
         Database.searchBooksByQuery(query)

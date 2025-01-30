@@ -20,6 +20,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var bookAdapter: BookAdapter
 
+    private lateinit var query: String
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,16 +44,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.clearSortFab.setOnClickListener {
-            viewModel.send(HomeEvent.ClearSortingCriteria)
+        binding.clearSortBt.setOnClickListener {
+            viewModel.send(HomeEvent.ClearSortingEvent)
         }
 
-        binding.mostPopularFab.setOnClickListener {
+        binding.sortDescBt.setOnClickListener {
             viewModel.send(HomeEvent.GetMostPopularEvent)
         }
 
-        binding.lessPopularFab.setOnClickListener {
+        binding.sortBt.setOnClickListener {
             viewModel.send(HomeEvent.GetLessPopularEvent)
+        }
+
+        binding.searchBt.setOnClickListener {
+            query = binding.queryEt.text.toString()
+            viewModel.send(HomeEvent.SearchEvent(query))
+        }
+
+        binding.addCountBt.setOnClickListener {
+            viewModel.send(HomeEvent.IncrementCountEvent)
         }
     }
 
@@ -61,18 +72,6 @@ class HomeFragment : Fragment() {
 
     private fun handleState(state: HomeState) {
         when (state) {
-            is HomeState.FetchBooksSuccess -> {
-                showLoading(false)
-                updateBooks(state.books)
-            }
-
-            is HomeState.FetchPopularBooksSuccess -> {
-                showLoading(false)
-                updateBooks(state.books)
-                binding.mostPopularFab.visibility = View.INVISIBLE
-                binding.lessPopularFab.visibility = View.VISIBLE
-            }
-
             is HomeState.Error -> {
                 showLoading(false)
                 showToast(state.message)
@@ -82,11 +81,9 @@ class HomeFragment : Fragment() {
                 showLoading(true)
             }
 
-            is HomeState.FetchUnPopularBooksSuccess -> {
+            is HomeState.Data -> {
                 showLoading(false)
                 updateBooks(state.books)
-                binding.lessPopularFab.visibility = View.INVISIBLE
-                binding.mostPopularFab.visibility = View.VISIBLE
             }
         }
     }
