@@ -1,0 +1,112 @@
+package com.x1oto.librarymangmentbook.presentation.mvi.home
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.x1oto.librarymangmentbook.data.Book
+import com.x1oto.librarymangmentbook.databinding.FragmentHomeBinding
+import com.x1oto.librarymangmentbook.presentation.BookAdapter
+
+class HomeFragment : Fragment() {
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel by viewModels<HomeViewModel>()
+
+    private lateinit var bookAdapter: BookAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        subscribeObservables()
+        setupListeners()
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        bookAdapter = BookAdapter()
+        binding.booksRv.adapter = bookAdapter
+    }
+
+    private fun setupListeners() {
+        binding.clearSortFab.setOnClickListener {
+            viewModel.send(HomeEvent.ClearSortingCriteria)
+        }
+
+        binding.mostPopularFab.setOnClickListener {
+            viewModel.send(HomeEvent.GetMostPopularEvent)
+        }
+
+        binding.lessPopularFab.setOnClickListener {
+            viewModel.send(HomeEvent.GetLessPopularEvent)
+        }
+    }
+
+    private fun subscribeObservables() {
+        viewModel.homeLiveData.observe(viewLifecycleOwner, ::handleState)
+    }
+
+    private fun handleState(state: HomeState) {
+        when (state) {
+            is HomeState.FetchBooksSuccess -> {
+                showLoading(false)
+                updateBooks(state.books)
+            }
+
+            is HomeState.FetchPopularBooksSuccess -> {
+                showLoading(false)
+                updateBooks(state.books)
+                binding.mostPopularFab.visibility = View.INVISIBLE
+                binding.lessPopularFab.visibility = View.VISIBLE
+            }
+
+            is HomeState.Error -> {
+                showLoading(false)
+                showToast(state.message)
+            }
+
+            HomeState.Loading -> {
+                showLoading(true)
+            }
+
+            is HomeState.FetchUnPopularBooksSuccess -> {
+                showLoading(false)
+                updateBooks(state.books)
+                binding.lessPopularFab.visibility = View.INVISIBLE
+                binding.mostPopularFab.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.booksRv.visibility = if (isLoading) View.GONE else View.VISIBLE
+    }
+
+    private fun updateBooks(books: List<Book>) {
+        bookAdapter.setBooks(books)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
+
