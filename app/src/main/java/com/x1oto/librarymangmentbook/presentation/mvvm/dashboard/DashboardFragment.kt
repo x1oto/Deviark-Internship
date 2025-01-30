@@ -8,11 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.x1oto.librarymangmentbook.databinding.FragmentDashboardBinding
 import com.x1oto.librarymangmentbook.presentation.BookAdapter
+import com.x1oto.librarymangmentbook.presentation.mvi.home.HomeEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -24,6 +24,8 @@ class DashboardFragment : Fragment() {
     private val viewModel by viewModels<DashboardViewModel>()
 
     private lateinit var bookAdapter: BookAdapter
+
+    private lateinit var query: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,42 +44,55 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setOnClicks() {
-        binding.floatingActionButton.setOnClickListener {
+        binding.clearSortBt.setOnClickListener {
             viewModel.fetchBooks()
         }
 
-        binding.plusFab.setOnClickListener {
+        binding.sortDescBt.setOnClickListener {
+            viewModel.getMostPopularBook()
+        }
+
+        binding.sortBt.setOnClickListener {
+            viewModel.getLessPopularEvent()
+        }
+
+        binding.searchBt.setOnClickListener {
+            query = binding.queryEt.text.toString()
+            viewModel.getBookByQuery(query)
+        }
+
+        binding.addCountBt.setOnClickListener {
             viewModel.incrementFirstIndex()
         }
 
-        binding.minusFab.setOnClickListener {
-            viewModel.decrementFirstIndex()
-        }
-    }
-
-    private fun subscribeObservables() {
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.booksRv.visibility = View.INVISIBLE
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
-
-        viewModel.books.observe(viewLifecycleOwner) { books ->
-            binding.booksRv.visibility = View.VISIBLE
-            bookAdapter.setBooks(books)
-        }
-
-        lifecycleScope.launch {
-           repeatOnLifecycle(Lifecycle.State.STARTED) {
-               viewModel.error.collectLatest {
-                   Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-               }
-           }
-        }
     }
 
     private fun initRecyclerView() {
         bookAdapter = BookAdapter()
         binding.booksRv.adapter = bookAdapter
+    }
+
+    private fun subscribeObservables() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            showLoading(it)
+        }
+
+        viewModel.booksLiveData.observe(viewLifecycleOwner) { books ->
+            bookAdapter.setBooks(books)
+        }
+
+        viewModel.errorLiveData.observe(viewLifecycleOwner) {
+            showToast(it)
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.booksRv.visibility = if (isLoading) View.GONE else View.VISIBLE
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {
