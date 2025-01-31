@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.x1oto.librarymangmentbook.presentation.mvp.notifications.NotificationsFragment"
+        android:name="com.x1oto.librarymangmentbook.presentation.mvp.notifications.MVPFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
