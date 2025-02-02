@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.x1oto.librarymangmentbook.data.Book
 import com.x1oto.librarymangmentbook.data.Database
+import com.x1oto.librarymangmentbook.data.Database.getRandomBook
 import com.x1oto.librarymangmentbook.presentation.mvi.home.HomeState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DashboardViewModel : ViewModel() {
 
@@ -20,8 +23,48 @@ class DashboardViewModel : ViewModel() {
     private val _errorLiveData = MutableLiveData<String>()
     val errorLiveData: LiveData<String> get() = _errorLiveData
 
+    private val tempBooks = mutableListOf<Book>()
+
     init {
         fetchBooks()
+    }
+
+    fun addBook(books: List<Book>) {
+        viewModelScope.launch {
+            val withNewBook = books.toMutableList().apply {
+                add(getRandomBook())
+            }
+            _booksLiveData.value = withNewBook
+            sendToBackEnd(withNewBook)
+        }
+    }
+
+    fun saveTemporaryBooks() {
+        viewModelScope.launch {
+            tempBooks.add(getRandomBook())
+        }
+    }
+
+    fun checkTemporaryBooks(books: List<Book>) {
+        if (tempBooks.isNotEmpty()) {
+            val merged = books.toMutableList().apply {
+                addAll(tempBooks)
+            }
+            _booksLiveData.value = merged
+            sendToBackEnd(merged)
+            tempBooks.clear()
+        }
+    }
+
+    private fun sendToBackEnd(merged: MutableList<Book>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Database.updateBooks(merged)
+                .onFailure {
+                    withContext(Dispatchers.Main) {
+                        _errorLiveData.value = "Error uploading to back. Re add book."
+                    }
+                }
+        }
     }
 
     fun fetchBooks() {

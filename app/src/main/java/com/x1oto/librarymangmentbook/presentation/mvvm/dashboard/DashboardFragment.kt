@@ -75,14 +75,27 @@ class DashboardFragment : Fragment() {
     private fun subscribeObservables() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             showLoading(it)
+
+            binding.addBookBt.setOnClickListener {
+                viewModel.saveTemporaryBooks()
+            }
         }
 
         viewModel.booksLiveData.observe(viewLifecycleOwner) { books ->
+            viewModel.checkTemporaryBooks(books)
             bookAdapter.setBooks(books)
+
+            binding.addBookBt.setOnClickListener {
+                viewModel.addBook(books)
+            }
         }
 
         viewModel.errorLiveData.observe(viewLifecycleOwner) {
             showToast(it)
+
+            binding.addBookBt.setOnClickListener {
+                viewModel.saveTemporaryBooks()
+            }
         }
     }
 
