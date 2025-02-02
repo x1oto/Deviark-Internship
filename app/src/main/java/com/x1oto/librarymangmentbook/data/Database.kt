@@ -65,8 +65,27 @@ object Database {
         Book(30, "Algorithm Design Manual", "Steven S. Skiena", Genre.ALGORITHMS, 2008, 7)
     )
 
+    // List of random books
+    private val randomBooks = mutableListOf(
+        Book(1, "THE GREAT GATSBY", "F. Scott Fitzgerald", Genre.CLASSIC, 1925, 8),
+        Book(2, "THE CATCHER IN THE RYE", "J.D. Salinger", Genre.CLASSIC, 1951, 6),
+        Book(3, "ALGORITHMS UNLOCKED", "Thomas H. Cormen", Genre.ALGORITHMS, 2013, 5),
+        Book(4, "THE DARK TOWER", "Stephen King", Genre.FANTASY, 1982, 7),
+        Book(5, "THE ART OF COMPUTER PROGRAMMING", "Donald E. Knuth", Genre.PROGRAMMING, 1968, 9),
+        Book(6, "THE MATRIX AND THE MIND", "Robert M. Pirsig", Genre.PHILOSOPHICAL, 2006, 4),
+        Book(7, "MEDITATIONS", "Marcus Aurelius", Genre.PHILOSOPHICAL, 180, 5),
+        Book(8, "THE ROAD LESS TRAVELLED", "M. Scott Peck", Genre.PHILOSOPHICAL, 1978, 8),
+        Book(9, "THE LORD OF THE RINGS", "J.R.R. Tolkien", Genre.FANTASY, 1954, 12)
+    )
+
+    suspend fun getRandomBook(): Book {
+        delay(300)
+        return randomBooks.random()
+    }
+
+
     // Imitation of query
-    suspend fun fetchBooks(term: Long = 2500): Result<List<Book>> {
+    suspend fun fetchBooks(term: Long = 1500): Result<List<Book>> {
         return withContext(Dispatchers.Default) {
             val chance = generateRandomInt()
             delay(term)
