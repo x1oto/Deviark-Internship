@@ -102,13 +102,13 @@ object Database {
     }
 
     // Backend upload imitation
-    suspend fun updateBooks(updatedBooks: MutableList<Book>, term: Long = 2500): Result<Boolean> {
+    suspend fun updateBooks(updatedBooks: List<Book>, term: Long = 2500): Result<Boolean> {
         return withContext(Dispatchers.Default) {
             val chance = generateRandomInt()
             delay(term)
             when (chance) {
                 in 0..90 -> {
-                    books = updatedBooks
+                    books = updatedBooks as MutableList<Book>
                     Result.success(true)
                 }
 

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.x1oto.librarymangmentbook.data.Book
 import com.x1oto.librarymangmentbook.databinding.FragmentNotificationsBinding
 import com.x1oto.librarymangmentbook.presentation.BookAdapter
+import kotlinx.coroutines.launch
 
 class MVPFragment : Fragment(), MyView {
 
@@ -32,6 +34,7 @@ class MVPFragment : Fragment(), MyView {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         Presenter.attachView(this)
+        Presenter.fetchBooks(false)
         setupListeners()
     }
 
@@ -67,6 +70,10 @@ class MVPFragment : Fragment(), MyView {
     override fun showLoading() {
         showLoading(true)
         isLoading = true
+
+        binding.addBookBt.setOnClickListener {
+            Presenter.saveTemporaryBooks()
+        }
     }
 
     override fun hideLoading() {
@@ -75,15 +82,20 @@ class MVPFragment : Fragment(), MyView {
     }
 
     override fun showData(books: List<Book>) {
-        if (books.isEmpty()) {
-            showError("We do not have such books!")
-        } else {
-            bookAdapter.setBooks(books)
+        val updatedBooks = Presenter.checkTemporaryBooks(books)
+        bookAdapter.setBooks(updatedBooks)
+
+        binding.addBookBt.setOnClickListener {
+            Presenter.addBook()
         }
     }
 
     override fun showError(error: String) {
         Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
+
+        binding.addBookBt.setOnClickListener {
+            Presenter.saveTemporaryBooks()
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
