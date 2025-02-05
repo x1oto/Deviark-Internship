@@ -8,12 +8,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.x1oto.cleanlibraryapp.R
 import com.x1oto.cleanlibraryapp.databinding.ActivityMainBinding
 import com.x1oto.cleanlibraryapp.presentation.BookAdapter
 import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.toString
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -89,11 +93,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.errorLiveData.observe(this) {
-            showToast(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errorSharedFlow.collectLatest {
+                    showToast(it)
 
-            binding.addBookBt.setOnClickListener {
-                viewModel.saveTemporaryBooks()
+                    binding.addBookBt.setOnClickListener {
+                        viewModel.saveTemporaryBooks()
+                    }
+                }
             }
         }
     }

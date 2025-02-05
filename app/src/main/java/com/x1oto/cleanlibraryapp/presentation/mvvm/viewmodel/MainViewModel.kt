@@ -13,13 +13,12 @@ import com.x1oto.domain.usecases.SearchBooksByQueryUC
 import com.x1oto.domain.usecases.UpdateBooksUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.collections.addAll
-import kotlin.collections.get
-import kotlin.text.set
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -37,8 +36,8 @@ class MainViewModel @Inject constructor(
     private val _booksLiveData = MutableLiveData<List<Book>>()
     val booksLiveData: LiveData<List<Book>> get() = _booksLiveData
 
-    private val _errorLiveData = MutableLiveData<String>()
-    val errorLiveData: LiveData<String> get() = _errorLiveData
+    private val _errorSharedFlow = MutableSharedFlow<String>()
+    val errorSharedFlow = _errorSharedFlow.asSharedFlow()
 
     private val tempBooks = mutableListOf<Book>()
 
@@ -78,7 +77,7 @@ class MainViewModel @Inject constructor(
             updateBooksUC(merged)
                 .onFailure {
                     withContext(Dispatchers.Main) {
-                        _errorLiveData.value = "Error uploading to back. Re add book."
+                        _errorSharedFlow.emit("Error uploading to back. Re add book.")
                     }
                 }
         }
@@ -98,7 +97,7 @@ class MainViewModel @Inject constructor(
                     }
                     .onFailure { e ->
                         _loadingLiveData.value = false
-                        _errorLiveData.value = e.message
+                        _errorSharedFlow.emit(e.message.toString())
                     }
             }
         }
@@ -118,7 +117,7 @@ class MainViewModel @Inject constructor(
                     }
                     .onFailure { e ->
                         _loadingLiveData.value = false
-                        _errorLiveData.value = e.message
+                        _errorSharedFlow.emit(e.message.toString())
                     }
             }
 
@@ -139,7 +138,7 @@ class MainViewModel @Inject constructor(
                     }
                     .onFailure { e ->
                         _loadingLiveData.value = false
-                        _errorLiveData.value = e.message
+                        _errorSharedFlow.emit(e.message.toString())
                     }
             }
 
@@ -160,7 +159,7 @@ class MainViewModel @Inject constructor(
                     }
                     .onFailure { e ->
                         _loadingLiveData.value = false
-                        _errorLiveData.value = e.message
+                        _errorSharedFlow.emit(e.message.toString())
                     }
             }
                 
@@ -171,7 +170,7 @@ class MainViewModel @Inject constructor(
         val currentState = _booksLiveData.value
         viewModelScope.launch {
             if (currentState.isNullOrEmpty()) {
-                _errorLiveData.value = "Cannot increment, somehow books list is empty"
+                _errorSharedFlow.emit("Cannot increment, somehow books list is empty")
             } else {
                 val updatedBooks = currentState.toMutableList().apply {
                     this[0] = this[0].copy(borrowCount = this[0].borrowCount + 1)
