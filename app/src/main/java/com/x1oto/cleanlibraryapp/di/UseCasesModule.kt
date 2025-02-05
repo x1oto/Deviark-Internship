@@ -22,8 +22,8 @@ object UseCasesModule {
     @Provides
     fun provideFetchBooksUC(bookRepository: BookRepository) = FetchBooksUC(bookRepository)
 
-    @Provides
-    fun provideGetMostPopularBooksUC(bookRepository: BookRepository) = GetMostPopularBooksUC(bookRepository)
+//    @Provides
+//    fun provideGetMostPopularBooksUC(bookRepository: BookRepository) = GetMostPopularBooksUC(bookRepository)
 
     @Provides
     fun provideGetLessPopularBooksUC(bookRepository: BookRepository) = GetLessPopularBooksUC(bookRepository)

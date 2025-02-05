@@ -89,7 +89,7 @@ class MainViewModel @Inject constructor(
         }
         _loadingLiveData.value = true
         viewModelScope.launch {
-            fetchBooksUC.invoke().collectLatest { result ->
+            fetchBooksUC().collectLatest { result ->
                 result
                     .onSuccess { books ->
                         _loadingLiveData.value = false
@@ -109,7 +109,7 @@ class MainViewModel @Inject constructor(
         }
         _loadingLiveData.value = true
         viewModelScope.launch {
-            getMostPopularBooksUC.invoke().collectLatest { result ->
+            getMostPopularBooksUC().collectLatest { result ->
                 result
                     .onSuccess { books ->
                         _loadingLiveData.value = false
