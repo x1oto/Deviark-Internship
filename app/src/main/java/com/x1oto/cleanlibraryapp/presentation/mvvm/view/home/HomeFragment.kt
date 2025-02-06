@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.x1oto.cleanlibraryapp.databinding.FragmentHomeBinding
 import com.x1oto.cleanlibraryapp.presentation.adapters.BookAdapter
 import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.home.HomeViewModel
@@ -64,12 +65,12 @@ class HomeFragment : Fragment() {
         binding.addCountBt.setOnClickListener {
             viewModel.incrementFirstIndex()
         }
-
     }
 
     private fun initRecyclerView() {
-        bookAdapter = BookAdapter {
-
+        bookAdapter = BookAdapter { bookId ->
+            val action = HomeFragmentDirections.actionHomeFragmentToBookInfoFragment(bookId)
+            findNavController().navigate(action)
         }
         binding.booksRv.adapter = bookAdapter
     }

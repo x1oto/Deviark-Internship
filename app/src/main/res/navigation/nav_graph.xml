@@ -9,10 +9,18 @@
         android:id="@+id/bookInfoFragment"
         android:name="com.x1oto.cleanlibraryapp.presentation.mvvm.view.bookinfo.BookInfoFragment"
         android:label="fragment_book_info"
-        tools:layout="@layout/fragment_book_info" />
+        tools:layout="@layout/fragment_book_info" >
+        <argument
+            android:name="bookId"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.x1oto.cleanlibraryapp.presentation.mvvm.view.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_bookInfoFragment"
+            app:destination="@id/bookInfoFragment" />
+    </fragment>
 </navigation>

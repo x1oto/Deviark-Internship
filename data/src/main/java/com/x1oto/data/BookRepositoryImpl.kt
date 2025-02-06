@@ -2,6 +2,7 @@ package com.x1oto.data
 
 import com.x1oto.data.Database.books
 import com.x1oto.data.constants.Constants.FETCH_BOOKS_ERROR
+import com.x1oto.data.constants.Constants.FETCH_ONE_BOOK_ERROR
 import com.x1oto.data.constants.Constants.FETCH_POPULAR_BOOKS_ERROR
 import com.x1oto.data.constants.Constants.UPLOAD_BOOKS_ERROR
 import com.x1oto.domain.repositories.BookRepository
@@ -100,6 +101,15 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
                     Result.failure(Exception(UPLOAD_BOOKS_ERROR))
                 }
             }
+        }
+    }
+
+    override suspend fun fetchBookById(id: Long): Result<Book> {
+        delay(600)
+        val foundedBook = books.find { it.id == id }
+        return when(foundedBook) {
+            null -> Result.failure(Exception(FETCH_ONE_BOOK_ERROR))
+            else -> Result.success(foundedBook)
         }
     }
 

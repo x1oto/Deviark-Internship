@@ -1,13 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.mvvm.view.bookinfo.BookInfoFragment">
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- ID -->
+    <TextView
+        android:id="@+id/idLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID:" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:id="@+id/idTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1" />
 
-</FrameLayout>
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titlePlainTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title:" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Some Book Title" />
+
+    <!-- Author -->
+    <TextView
+        android:id="@+id/authorLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author:" />
+
+    <TextView
+        android:id="@+id/authorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Some Author" />
+
+    <!-- Genre -->
+    <TextView
+        android:id="@+id/genreLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Genre:" />
+
+    <TextView
+        android:id="@+id/genreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fiction" />
+
+    <!-- Year -->
+    <TextView
+        android:id="@+id/yearLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Year:" />
+
+    <TextView
+        android:id="@+id/yearTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2023" />
+
+    <!-- Borrow Count -->
+    <TextView
+        android:id="@+id/borrowCountLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Borrow Count:" />
+
+    <TextView
+        android:id="@+id/borrowCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0" />
+
+    <!-- Is Borrowed -->
+    <TextView
+        android:id="@+id/isBorrowedLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Is Borrowed:" />
+
+    <TextView
+        android:id="@+id/isBorrowedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="false" />
+
+    <!-- Last Borrowed Timestamp -->
+    <TextView
+        android:id="@+id/lastBorrowedTimestampLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last Borrowed Timestamp:" />
+
+    <TextView
+        android:id="@+id/lastBorrowedTimestampTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/rateBt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="See reviews" />
+
+</LinearLayout>

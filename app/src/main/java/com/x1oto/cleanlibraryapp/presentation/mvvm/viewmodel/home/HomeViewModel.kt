@@ -130,7 +130,7 @@ class HomeViewModel @Inject constructor(
         }
         _loadingLiveData.value = true
         viewModelScope.launch {
-            getLessPopularBooksUC.invoke().collectLatest { result ->
+            getLessPopularBooksUC().collectLatest { result ->
                 result
                     .onSuccess { books ->
                         _loadingLiveData.value = false
@@ -151,7 +151,7 @@ class HomeViewModel @Inject constructor(
         }
         _loadingLiveData.value = true
         viewModelScope.launch {
-            searchBooksByQueryUC.invoke(query).collectLatest { result ->
+            searchBooksByQueryUC(query).collectLatest { result ->
                 result
                     .onSuccess { books ->
                         _loadingLiveData.value = false
