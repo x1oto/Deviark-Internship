@@ -1,49 +1,46 @@
-package com.x1oto.cleanlibraryapp.presentation.mvvm.view
+package com.x1oto.cleanlibraryapp.presentation.mvvm.view.home
 
+import androidx.fragment.app.viewModels
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.x1oto.cleanlibraryapp.R
-import com.x1oto.cleanlibraryapp.databinding.ActivityMainBinding
-import com.x1oto.cleanlibraryapp.presentation.BookAdapter
-import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.MainViewModel
+import com.x1oto.cleanlibraryapp.databinding.FragmentHomeBinding
+import com.x1oto.cleanlibraryapp.presentation.adapters.BookAdapter
+import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class HomeFragment : Fragment() {
 
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var bookAdapter: BookAdapter
-
     private lateinit var query: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         subscribeObservables()
         setOnClicks()
         initRecyclerView()
-
     }
 
     private fun setOnClicks() {
@@ -71,12 +68,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        bookAdapter = BookAdapter()
+        bookAdapter = BookAdapter {
+
+        }
         binding.booksRv.adapter = bookAdapter
     }
 
     private fun subscribeObservables() {
-        viewModel.loadingLiveData.observe(this) {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             showLoading(it)
 
             binding.addBookBt.setOnClickListener {
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.booksLiveData.observe(this) { books ->
+        viewModel.booksLiveData.observe(viewLifecycleOwner) { books ->
             viewModel.checkTemporaryBooks(books)
             bookAdapter.setBooks(books)
 
@@ -112,7 +111,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

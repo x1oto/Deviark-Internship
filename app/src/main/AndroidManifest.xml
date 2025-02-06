@@ -14,7 +14,7 @@
         android:theme="@style/Theme.CleanLibraryApp"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.mvvm.view.MainActivity"
+            android:name=".presentation.mvvm.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

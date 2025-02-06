@@ -1,4 +1,4 @@
-package com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel
+package com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val getRandomBookUC: GetRandomBookUC,
     private val fetchBooksUC: FetchBooksUC,
     private val getMostPopularBooksUC: GetMostPopularBooksUC,
@@ -162,7 +162,7 @@ class MainViewModel @Inject constructor(
                         _errorSharedFlow.emit(e.message.toString())
                     }
             }
-                
+
         }
     }
 
