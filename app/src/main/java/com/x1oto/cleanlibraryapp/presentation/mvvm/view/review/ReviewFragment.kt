@@ -36,7 +36,7 @@ class ReviewFragment : Fragment() {
         backPressedCallback = object :
             OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().navigate(ReviewFragmentDirections.actionReviewFragmentToHomeFragment())
+                findNavController().popBackStack()
             }
 
         }
