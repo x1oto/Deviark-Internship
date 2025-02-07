@@ -65,6 +65,16 @@ class HomeFragment : Fragment() {
         binding.addCountBt.setOnClickListener {
             viewModel.incrementFirstIndex()
         }
+
+        binding.moveToEditBookBt.setOnClickListener {
+            val action = HomeFragmentDirections.moveToEditBookFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.confirmationBt.setOnClickListener {
+            val action = HomeFragmentDirections.moveToAreYouSureDialog()
+            findNavController().navigate(action)
+        }
     }
 
     private fun initRecyclerView() {

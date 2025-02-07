@@ -16,8 +16,7 @@
     <TextView
         android:id="@+id/idTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1" />
+        android:layout_height="wrap_content" />
 
     <!-- Title -->
     <TextView
@@ -29,8 +28,7 @@
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Some Book Title" />
+        android:layout_height="wrap_content" />
 
     <!-- Author -->
     <TextView
@@ -42,8 +40,7 @@
     <TextView
         android:id="@+id/authorTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Some Author" />
+        android:layout_height="wrap_content" />
 
     <!-- Genre -->
     <TextView
@@ -55,8 +52,7 @@
     <TextView
         android:id="@+id/genreTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fiction" />
+        android:layout_height="wrap_content" />
 
     <!-- Year -->
     <TextView
@@ -68,8 +64,7 @@
     <TextView
         android:id="@+id/yearTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2023" />
+        android:layout_height="wrap_content" />
 
     <!-- Borrow Count -->
     <TextView
@@ -81,8 +76,7 @@
     <TextView
         android:id="@+id/borrowCountTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0" />
+        android:layout_height="wrap_content" />
 
     <!-- Is Borrowed -->
     <TextView
@@ -94,8 +88,7 @@
     <TextView
         android:id="@+id/isBorrowedTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="false" />
+        android:layout_height="wrap_content" />
 
     <!-- Last Borrowed Timestamp -->
     <TextView
@@ -107,8 +100,7 @@
     <TextView
         android:id="@+id/lastBorrowedTimestampTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-" />
+        android:layout_height="wrap_content" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -121,5 +113,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="See reviews" />
+
+    <Button
+        android:id="@+id/moveToEditBookBt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Move to Editbook" />
+
+    <Button
+        android:id="@+id/confirmationBt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show dialog" />
 
 </LinearLayout>

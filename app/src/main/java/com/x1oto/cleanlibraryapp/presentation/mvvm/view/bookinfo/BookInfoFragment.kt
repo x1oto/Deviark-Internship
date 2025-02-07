@@ -10,9 +10,11 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.x1oto.cleanlibraryapp.R
 import com.x1oto.cleanlibraryapp.databinding.FragmentBookInfoBinding
+import com.x1oto.cleanlibraryapp.presentation.mvvm.view.home.HomeFragmentDirections
 import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.bookinfo.BookInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -41,6 +43,24 @@ class BookInfoFragment : Fragment() {
             fetchBook()
         }
         subscribeToObservables()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.rateBt.setOnClickListener {
+            val action = BookInfoFragmentDirections.actionBookInfoFragmentToReviewFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.moveToEditBookBt.setOnClickListener {
+            val action = BookInfoFragmentDirections.moveToEditBookFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.confirmationBt.setOnClickListener {
+            val action = BookInfoFragmentDirections.moveToAreYouSureDialog()
+            findNavController().navigate(action)
+        }
     }
 
     private fun fetchBook() {
