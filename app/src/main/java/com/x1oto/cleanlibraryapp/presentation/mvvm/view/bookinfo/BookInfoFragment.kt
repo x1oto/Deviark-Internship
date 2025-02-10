@@ -70,6 +70,7 @@ class BookInfoFragment : Fragment() {
     private fun subscribeToObservables() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+            binding.group.visibility = if(it) View.GONE else View.VISIBLE
         }
 
         viewModel.bookLiveData.observe(viewLifecycleOwner) { book ->

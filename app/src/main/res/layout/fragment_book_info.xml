@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:padding="16dp">
 
     <!-- ID -->
@@ -172,6 +174,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -189,19 +192,73 @@
         android:id="@+id/moveToEditBookBt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Move to Editbook"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Edit book"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rateBt" />
 
     <Button
         android:id="@+id/confirmationBt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:text="Show dialog"
-        app:layout_constraintBottom_toTopOf="@+id/moveToEditBookBt"
+        app:layout_constraintTop_toBottomOf="@+id/moveToEditBookBt"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <!--  Group  -->
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="rateBt, moveToEditBookBt, confirmationBt" />
+
+    <!--  Barrier  -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/startBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="idTextView, titleTextView, authorTextView, genreTextView, yearTextView, borrowCountTextView, isBorrowedTextView, lastBorrowedTimestampTextView"/>
+
+    <TextView
+        android:id="@+id/barrierTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Barrier"
+        app:layout_constraintStart_toEndOf="@id/startBarrier"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/likeTooLabelTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="You may like too:"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmationBt" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/likeTooLabelTv">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
