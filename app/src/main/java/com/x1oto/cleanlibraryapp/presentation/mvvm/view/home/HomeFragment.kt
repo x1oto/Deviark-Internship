@@ -45,24 +45,24 @@ class HomeFragment : Fragment() {
     }
 
     private fun setOnClicks() {
-        binding.clearSortBt.setOnClickListener {
+        binding.buttonReset.setOnClickListener {
             viewModel.fetchBooks()
         }
 
-        binding.sortDescBt.setOnClickListener {
+        binding.buttonSortDesc.setOnClickListener {
             viewModel.getMostPopularBook()
         }
 
-        binding.sortBt.setOnClickListener {
+        binding.buttonSort.setOnClickListener {
             viewModel.getLessPopularEvent()
         }
 
-        binding.searchBt.setOnClickListener {
-            query = binding.queryEt.text.toString()
+        binding.buttonSearch.setOnClickListener {
+            query = binding.editTextQuery.text.toString()
             viewModel.getBookByQuery(query)
         }
 
-        binding.addCountBt.setOnClickListener {
+        binding.buttonAddCount.setOnClickListener {
             viewModel.incrementFirstIndex()
         }
     }
@@ -79,7 +79,7 @@ class HomeFragment : Fragment() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             showLoading(it)
 
-            binding.addBookBt.setOnClickListener {
+            binding.buttonAddBook.setOnClickListener {
                 viewModel.saveTemporaryBooks()
             }
         }
@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
             viewModel.checkTemporaryBooks(books)
             bookAdapter.setBooks(books)
 
-            binding.addBookBt.setOnClickListener {
+            binding.buttonAddBook.setOnClickListener {
                 viewModel.addBook(books)
             }
         }
@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
                 viewModel.errorSharedFlow.collectLatest {
                     showToast(it)
 
-                    binding.addBookBt.setOnClickListener {
+                    binding.buttonAddBook.setOnClickListener {
                         viewModel.saveTemporaryBooks()
                     }
                 }

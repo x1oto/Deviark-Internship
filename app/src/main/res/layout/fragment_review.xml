@@ -9,7 +9,6 @@
 
     <TextView
         android:id="@+id/bookReviewLabelTv"
-        style="@style/Poppins.H2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -22,7 +21,6 @@
         <TextView
             android:id="@+id/rateTv"
             app:layout_constraintStart_toStartOf="@+id/bookReviewLabelTv"
-            style="@style/Poppins.H1"
             app:layout_constraintEnd_toStartOf="@id/starIv"
             app:layout_constraintTop_toBottomOf="@+id/bookReviewLabelTv"
             android:layout_width="wrap_content"
@@ -45,7 +43,6 @@
 
     <TextView
         android:id="@+id/reviewsQuantityTv"
-        style="@style/Poppins.Regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

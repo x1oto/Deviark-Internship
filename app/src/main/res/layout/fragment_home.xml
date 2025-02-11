@@ -7,24 +7,25 @@
     tools:context=".presentation.mvvm.view.home.HomeFragment">
 
     <Button
-        android:id="@+id/searchBt"
+        android:id="@+id/buttonSearch"
+        style="@style/Button.Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Search"
+        android:text="@string/search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/queryEt"
+        android:id="@+id/editTextQuery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Query"
+        android:hint="@string/query"
         android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@+id/searchBt"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,11 +35,10 @@
         android:layout_height="0dp"
         android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBt"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSearch"
+        app:layout_constraintBottom_toTopOf="@id/buttonAddBook" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -54,107 +54,54 @@
         app:layout_constraintVertical_bias="0.5"
         tools:visibility="visible" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <Button
+        android:id="@+id/buttonAddBook"
+        style="@style/Button.Base"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/add_new_book"
+        app:layout_constraintBottom_toTopOf="@id/buttonSort"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <!--        <Button-->
-        <!--            android:id="@+id/addBookBt"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:text="Add" />-->
-
-        <!--        <Button-->
-        <!--            android:id="@+id/sortBt"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:text="Sort" />-->
-
-        <!--        <Button-->
-        <!--            android:id="@+id/sortDescBt"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:text="SortDesc" />-->
-
-        <!--        <Button-->
-        <!--            android:id="@+id/addCountBt"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:text="Count++" />-->
-
-        <!--        <Button-->
-        <!--            android:id="@+id/clearSortBt"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:text="Clear" />-->
-    </LinearLayout>
-
-    <!--  Guide Line  -->
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
-
-    <LinearLayout
+    <Button
+        android:id="@+id/buttonSort"
+        style="@style/Button.Base"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline"
+        android:layout_height="wrap_content"
+        android:text="@string/sort"
+        app:layout_constraintBottom_toTopOf="@id/buttonSortDesc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/addBookBt"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            style="@style/Button.Regular"
-            android:text="Add New Book" />
+    <Button
+        android:id="@+id/buttonSortDesc"
+        style="@style/Button.Base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sort_descending"
+        app:layout_constraintBottom_toTopOf="@id/buttonAddCount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/sortBt"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Sort" />
+    <Button
+        android:id="@+id/buttonAddCount"
+        style="@style/Button.Base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/increase_count"
+        app:layout_constraintBottom_toTopOf="@id/buttonReset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/sortDescBt"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Sort Descending" />
-
-        <Button
-            android:id="@+id/addCountBt"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Increase Count" />
-
-        <Button
-            android:id="@+id/clearSortBt"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="Reset Sorting" />
-
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/buttonReset"
+        style="@style/Button.Base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,13 @@
     <string name="based_on_reviews">Based on - reviews</string>
     <string name="empty_rate">-</string>
     <string name="star">Star</string>
+    <string name="search">Search</string>
+    <string name="reset">Reset</string>
+    <string name="increase_count">Increase Count</string>
+    <string name="sort_descending">Sort Descending</string>
+    <string name="sort">Sort</string>
+    <string name="add_new_book">Add New Book</string>
+    <string name="query">Query</string>
 
     <plurals name="reviews_count">
         <item quantity="zero">No reviews</item>

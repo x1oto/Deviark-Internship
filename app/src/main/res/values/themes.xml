@@ -48,34 +48,4 @@
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
     </style>
-
-
-    <style name="Poppins" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/poppins</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
-    </style>
-
-    <style name="Poppins.H1" >
-        <item name="android:textSize">30sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:includeFontPadding">false</item>  <!-- Імба, забирає лишні відступи в контейнері, які додаються шрифтом -->
-        <item name="android:fontFamily">@font/poppins_medium</item>
-    </style>
-
-    <style name="Poppins.H2" >
-        <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/poppins</item>
-    </style>
-
-    <style name="Poppins.Regular" >
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="Button.Regular" parent="ThemeOverlay.Material3.Button" >
-        <item name="android:includeFontPadding">false</item>
-        <item name="backgroundTint">@drawable/button_regular_background</item>
-        <item name="android:textAppearance">@style/Poppins.Regular</item>
-    </style>
-
 </resources>

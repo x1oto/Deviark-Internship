@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Fonts  -->
+    <style name="Poppins.Base" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Poppins.Regular.Base" parent="Poppins.Base">
+        <item name="android:fontFamily">@font/poppins</item>
+
+    </style>
+
+    <style name="Poppins.Medium.Base" parent="Poppins.Base">
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Regular Styles -->
+    <style name="Poppins.Regular.Title" parent="Poppins.Regular.Base">
+        <item name="android:textSize">@dimen/text_size_title</item>
+    </style>
+
+    <style name="Poppins.Regular.SubTitle" parent="Poppins.Regular.Base">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+    </style>
+
+    <style name="Poppins.Regular.Normal" parent="Poppins.Regular.Base">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="Poppins.Regular.Tiny" parent="Poppins.Regular.Base">
+        <item name="android:textSize">@dimen/text_size_tiny</item>
+    </style>
+
+    <!-- Medium Styles -->
+    <style name="Poppins.Medium.Title" parent="Poppins.Medium.Base">
+        <item name="android:textSize">@dimen/text_size_title</item>
+    </style>
+
+    <style name="Poppins.Medium.SubTitle" parent="Poppins.Medium.Base">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+    </style>
+
+    <style name="Poppins.Medium.Normal" parent="Poppins.Medium.Base">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="Poppins.Medium.Tiny" parent="Poppins.Medium.Base">
+        <item name="android:textSize">@dimen/text_size_tiny</item>
+    </style>
+
+    <!--  Buttons custom style  -->
+    <style name="Button.Base" parent="ThemeOverlay.Material3.Button">
+        <item name="android:textAppearance">@style/Poppins.Medium.Normal</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0.04</item>
+    </style>
+
+</resources>
