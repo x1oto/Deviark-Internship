@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.x1oto.cleanlibraryapp.R
 import com.x1oto.cleanlibraryapp.databinding.FragmentReviewBinding
 import com.x1oto.cleanlibraryapp.presentation.adapters.ReviewAdapter
 import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.review.ReviewViewModel
@@ -72,8 +73,9 @@ class ReviewFragment : Fragment() {
 
     private fun setupTextViews(averageRate: String = "-", count: Int = 0) {
         binding.run {
+            println("qweqwe setupTextViews $count")
             rateTv.text = averageRate.toString()
-            val reviewCount = resources.getQuantityString(com.x1oto.cleanlibraryapp.R.plurals.reviews_count, count, count)
+            val reviewCount = resources.getQuantityString(R.plurals.reviews_count, count, count)
             reviewsQuantityTv.text = reviewCount
         }
     }

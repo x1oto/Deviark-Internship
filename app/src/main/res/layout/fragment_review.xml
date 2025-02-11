@@ -18,31 +18,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/bookReviewLabelTv"
-        app:layout_constraintStart_toStartOf="@+id/bookReviewLabelTv"
-        app:layout_constraintTop_toBottomOf="@+id/bookReviewLabelTv">
 
         <TextView
             android:id="@+id/rateTv"
+            app:layout_constraintStart_toStartOf="@+id/bookReviewLabelTv"
             style="@style/Poppins.H1"
+            app:layout_constraintEnd_toStartOf="@id/starIv"
+            app:layout_constraintTop_toBottomOf="@+id/bookReviewLabelTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_chainStyle="packed"
             android:text="@string/empty_rate" />
 
         <ImageView
             android:id="@+id/starIv"
+            app:layout_constraintTop_toTopOf="@+id/rateTv"
+            app:layout_constraintBottom_toBottomOf="@+id/rateTv"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@id/rateTv"
             android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/bookReviewLabelTv"
             android:contentDescription="@string/star"
             android:src="@drawable/star_24px" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/reviewsQuantityTv"
@@ -51,9 +50,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/based_on_reviews"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintEnd_toEndOf="@+id/starIv"
+        app:layout_constraintStart_toStartOf="@+id/rateTv"
+        app:layout_constraintTop_toBottomOf="@+id/rateTv" />
 
     <ProgressBar
         android:id="@+id/progressBar"
