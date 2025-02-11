@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,13 +13,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.x1oto.cleanlibraryapp.databinding.FragmentReviewBinding
-import com.x1oto.cleanlibraryapp.presentation.adapters.BookAdapter
 import com.x1oto.cleanlibraryapp.presentation.adapters.ReviewAdapter
 import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.review.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.annotation.meta.When
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -61,21 +58,23 @@ class ReviewFragment : Fragment() {
 
         viewModel.reviewsLiveData.observe(viewLifecycleOwner) { reviewsSummary ->
             reviewAdapter.setReviews(reviewsSummary.reviews)
-
-            binding.rateTv.text = reviewsSummary.average.toString()
-            when (reviewsSummary.size) {
-                0 -> binding.reviewsQuantityTv.text = "Waiting for reviews"
-                1 -> binding.reviewsQuantityTv.text = "Based on ${reviewsSummary.size} review"
-                else -> binding.reviewsQuantityTv.text = "Based on ${reviewsSummary.size} reviews"
-            }
+            setupTextViews(averageRate = reviewsSummary.average.toString(), count = reviewsSummary.size)
         }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.errorSharedFlow.collectLatest {
-                    showToast(it)
+                    setupTextViews()
                 }
             }
+        }
+    }
+
+    private fun setupTextViews(averageRate: String = "-", count: Int = 0) {
+        binding.run {
+            rateTv.text = averageRate.toString()
+            val reviewCount = resources.getQuantityString(com.x1oto.cleanlibraryapp.R.plurals.reviews_count, count, count)
+            reviewsQuantityTv.text = reviewCount
         }
     }
 
@@ -102,10 +101,6 @@ class ReviewFragment : Fragment() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         binding.reviewRv.visibility = if (isLoading) View.GONE else View.VISIBLE
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {

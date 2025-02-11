@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:fontFamily="@font/poppins_medium"
+            style="@style/Button.Regular"
             android:text="Add New Book" />
 
         <Button

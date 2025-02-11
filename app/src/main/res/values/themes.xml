@@ -73,11 +73,12 @@
         <item name="android:fontFamily">@font/poppins</item>
     </style>
 
-    <style name="Poppins.Button" >
+    <style name="Button.Regular" parent="ThemeOverlay.Material3.Button" >
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="backgroundTint">@drawable/button_regular_background</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
     </style>
-
 
 </resources>

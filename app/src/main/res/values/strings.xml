@@ -4,4 +4,10 @@
     <string name="based_on_reviews">Based on - reviews</string>
     <string name="empty_rate">-</string>
     <string name="star">Star</string>
+
+    <plurals name="reviews_count">
+        <item quantity="zero">No reviews</item>
+        <item quantity="one">%d review</item>
+        <item quantity="other">%d reviews</item>
+    </plurals>
 </resources>
