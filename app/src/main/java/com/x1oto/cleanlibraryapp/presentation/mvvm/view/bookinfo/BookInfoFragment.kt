@@ -47,11 +47,6 @@ class BookInfoFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.rateBt.setOnClickListener {
-            val action = BookInfoFragmentDirections.actionBookInfoFragmentToReviewFragment()
-            findNavController().navigate(action)
-        }
-
         binding.moveToEditBookBt.setOnClickListener {
             val action = BookInfoFragmentDirections.moveToEditBookFragment()
             findNavController().navigate(action)
@@ -74,6 +69,12 @@ class BookInfoFragment : Fragment() {
         }
 
         viewModel.bookLiveData.observe(viewLifecycleOwner) { book ->
+
+            binding.rateBt.setOnClickListener {
+                val action = BookInfoFragmentDirections.actionBookInfoFragmentToReviewFragment(book.id)
+                findNavController().navigate(action)
+            }
+
             binding.run {
                 idTextView.text = book.id.toString()
                 titleTextView.text = book.title

@@ -1,12 +1,16 @@
 package com.x1oto.data
 
 import com.x1oto.data.Database.books
+import com.x1oto.data.Database.reviewsMap
 import com.x1oto.data.constants.Constants.FETCH_BOOKS_ERROR
 import com.x1oto.data.constants.Constants.FETCH_ONE_BOOK_ERROR
 import com.x1oto.data.constants.Constants.FETCH_POPULAR_BOOKS_ERROR
 import com.x1oto.data.constants.Constants.UPLOAD_BOOKS_ERROR
 import com.x1oto.domain.repositories.BookRepository
 import com.x1oto.domain.model.Book
+import com.x1oto.data.model.ReviewDTO
+import com.x1oto.domain.model.Review
+import com.x1oto.domain.model.ReviewSummary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -36,6 +40,29 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         }
     }.flowOn(Dispatchers.Default)
 
+    override fun fetchReviews(id: Long, delayMs: Long): Flow<Result<ReviewSummary>> = flow {
+        delay(delayMs)
+        val specific = reviewsMap[id]
+
+        if(specific != null) {
+            emit(Result.success(specific.toSummary()))
+        } else {
+            emit(Result.failure(Exception("No reviews for this book.")))
+        }
+
+    }.flowOn(Dispatchers.Default)
+
+
+    fun List<ReviewDTO>.toDomain(): List<Review> {
+        return map { Review(it.nickname, it.rating, it.text) }
+    }
+
+
+    fun List<ReviewDTO>.toSummary(): ReviewSummary {
+        val domainReviews = this.toDomain()
+        val average = if (isNotEmpty()) sumOf { it.rating } / size else 0.0
+        return ReviewSummary(domainReviews, size, average)
+    }
 
     override fun getMostPopularBooks(term: Long): Flow<Result<List<Book>>> = flow {
         val chance = generateRandomInt()

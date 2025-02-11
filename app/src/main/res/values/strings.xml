@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CleanLibraryApp</string>
+    <string name="reviews">Reviews</string>
+    <string name="based_on_reviews">Based on - reviews</string>
+    <string name="empty_rate">-</string>
+    <string name="star">Star</string>
 </resources>

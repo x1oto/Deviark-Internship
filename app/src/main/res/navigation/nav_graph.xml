@@ -43,7 +43,11 @@
         android:id="@+id/reviewFragment"
         android:name="com.x1oto.cleanlibraryapp.presentation.mvvm.view.review.ReviewFragment"
         android:label="fragment_review"
-        tools:layout="@layout/fragment_review" />
+        tools:layout="@layout/fragment_review" >
+        <argument
+            android:name="bookId"
+            app:argType="long" />
+    </fragment>
 
     <fragment
         android:id="@+id/editBookFragment"

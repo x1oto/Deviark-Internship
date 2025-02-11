@@ -6,9 +6,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FetchBooksUC @Inject constructor(private val bookRepository: BookRepository) {
-    private val delayMs: Long = 1500
     operator fun invoke(): Flow<Result<List<Book>>> {
-        return bookRepository.fetchBooks(delayMs)
+        return bookRepository.fetchBooks(delayMs = 1500)
     }
 }
 

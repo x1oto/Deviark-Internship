@@ -1,6 +1,7 @@
 package com.x1oto.data
 
 import com.x1oto.domain.model.Book
+import com.x1oto.data.model.ReviewDTO
 import com.x1oto.domain.utils.Genre
 
 object Database {
@@ -70,5 +71,56 @@ object Database {
         Book(8, "THE ROAD LESS TRAVELLED", "M. Scott Peck", Genre.PHILOSOPHICAL, 1978, 8),
         Book(9, "THE LORD OF THE RINGS", "J.R.R. Tolkien", Genre.FANTASY, 1954, 12)
     )
+
+    val reviewsMap: Map<Long, List<ReviewDTO>> = mapOf(
+        1L to listOf(
+            ReviewDTO("BookLover92", 4.5, "Чудова книга! Дуже сподобався стиль автора і глибина персонажів."),
+            ReviewDTO("AlexReads", 3.8, "Цікаво, але трохи затягнуто. Друга половина книги здалася кращою.")
+        ),
+        3L to listOf(
+            ReviewDTO("FantasyFan", 5.0, "Це було неймовірно! Атмосфера, сюжет – усе на найвищому рівні."),
+            ReviewDTO("MysteriousReader", 5.0, "Без сумніву, одна з найкращих книг, які я читав цього року."),
+            ReviewDTO("NightOwl", 4.7, "Захопило з перших сторінок! Неможливо було відірватися.")
+        ),
+        5L to listOf(
+            ReviewDTO("JaneDoe", 2.5, "Очікувала більшого. Герої не викликали емоцій, фінал передбачуваний.")
+        ),
+        7L to listOf(
+            ReviewDTO("ReaderX", 3.0, "Непогано, але нічого особливого. Книга на один раз."),
+            ReviewDTO("LitCritic", 4.2, "Гарно написано, але хотілося б більше глибини у деяких сюжетних лініях.")
+        ),
+        10L to listOf(
+            ReviewDTO("SciFiGeek", 4.8, "Фантастика на високому рівні! Відмінна наукова база."),
+            ReviewDTO("CasualReader", 3.5, "Легка та приємна книга, але не вистачило чогось особливого.")
+        ),
+        12L to listOf(
+            ReviewDTO("MysteryLover", 4.3, "Детективна історія з неочікуваним фіналом!"),
+            ReviewDTO("RomanceReader", 3.9, "Мила історія кохання, але трохи передбачувана.")
+        ),
+        15L to listOf(
+            ReviewDTO("ClassicLover", 4.6, "Справжня літературна класика, варта кожної хвилини.")
+        ),
+        18L to listOf(
+            ReviewDTO("Philosopher", 4.8, "Глибока книга, яка змусила замислитися над життям.")
+        ),
+        20L to listOf(
+            ReviewDTO("HistoricalLover", 4.9, "Історичні події відображені дуже правдоподібно."),
+            ReviewDTO("PoetryFan", 4.3, "Чудові метафори, відчувається справжня душа автора.")
+        ),
+        24L to listOf(
+            ReviewDTO("DeepThinker", 4.7, "Філософська ідея викладена дуже переконливо.")
+        ),
+        28L to listOf(
+            ReviewDTO("SuspenseReader", 4.5, "Трилер тримав у напрузі до останньої сторінки!"),
+            ReviewDTO("CulturalExplorer", 4.6, "Глибоке занурення у культуру іншої країни.")
+        ),
+        30L to listOf(
+            ReviewDTO("AdventureFan", 5.0, "Епічна подорож, від якої захоплює дух!"),
+            ReviewDTO("ComedyLover", 4.2, "Смішно і дотепно! Відмінний гумор.")
+        )
+    )
+
+
+
 
 }

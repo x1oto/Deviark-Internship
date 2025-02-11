@@ -1,6 +1,7 @@
 package com.x1oto.domain.repositories
 
 import com.x1oto.domain.model.Book
+import com.x1oto.domain.model.ReviewSummary
 import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
@@ -14,4 +15,7 @@ interface BookRepository {
 
     // Methods that we use in BookInfoFragment
     suspend fun fetchBookById(id: Long): Result<Book>
+
+    // Methods that we use in Reviews
+    fun fetchReviews(id: Long, delayMs: Long): Flow<Result<ReviewSummary>>
 }
