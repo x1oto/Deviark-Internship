@@ -1,58 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/itemCv"
-    style="@style/Widget.Material3.CardView.Elevated"
+    android:id="@+id/cardViewBook"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:padding="16dp">
 
         <TextView
-            android:id="@+id/titleTv"
-            android:layout_width="0dp"
+            android:id="@+id/textViewTitle"
+            style="@style/Poppins.Medium.Title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="18dp"
-            tools:layout_editor_absoluteY="54dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/countTv"
-            android:layout_width="0dp"
+            android:id="@+id/textViewBorrowCountLabel"
+            style="@style/Poppins.Regular.Normal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="94dp"
-            tools:layout_editor_absoluteY="51dp" />
+            android:layout_marginTop="16dp"
+            android:text="@string/borrowed_count"
+            app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
         <TextView
-            android:id="@+id/authorTv"
-            android:layout_width="0dp"
+            android:id="@+id/textViewBorrowCount"
+            style="@style/Poppins.Medium.Normal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="181dp"
-            tools:layout_editor_absoluteY="53dp" />
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewBorrowCountLabel"
+            app:layout_constraintStart_toEndOf="@+id/textViewBorrowCountLabel"
+            app:layout_constraintTop_toTopOf="@+id/textViewBorrowCountLabel" />
 
         <TextView
-            android:id="@+id/yearTv"
-            android:layout_width="0dp"
+            android:id="@+id/textViewAuthor"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="267dp"
-            tools:layout_editor_absoluteY="48dp" />
-    </LinearLayout>
+            android:layout_marginTop="8dp"
+            style="@style/Poppins.Regular.Normal"
+            app:layout_constraintStart_toStartOf="@+id/textViewBorrowCountLabel"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBorrowCountLabel" />
+
+        <TextView
+            android:id="@+id/textViewYear"
+            style="@style/Poppins.Regular.Normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewAuthor"
+            app:layout_constraintStart_toStartOf="@+id/textViewAuthor"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAuthor" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </com.google.android.material.card.MaterialCardView>

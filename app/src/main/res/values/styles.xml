@@ -56,9 +56,18 @@
     <style name="Button.Base" parent="ThemeOverlay.Material3.Button">
         <item name="android:textAppearance">@style/Poppins.Medium.Normal</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:lineHeight">24sp</item>
+        <item name="android:lineHeight">@dimen/button_line_height</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:letterSpacing">0.04</item>
+        <item name="android:letterSpacing">@dimen/button_letter_spacing</item>
     </style>
 
+    <!--  Edittext custom style  -->
+    <style name="EditText.Base.Text" parent="Widget.AppCompat.EditText">
+        <item name="android:textAppearance">@style/Poppins.Medium.Tiny</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:inputType">text</item>
+        <item name="android:autofillHints">name</item>
+        <item name="android:ems">10</item>
+        <item name="android:imeOptions">actionDone</item>
+    </style>
 </resources>

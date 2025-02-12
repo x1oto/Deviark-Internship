@@ -11,6 +11,7 @@
     <string name="sort">Sort</string>
     <string name="add_new_book">Add New Book</string>
     <string name="query">Query</string>
+    <string name="borrowed_count">Borrowed count:</string>
 
     <plurals name="reviews_count">
         <item quantity="zero">No reviews</item>

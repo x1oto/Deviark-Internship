@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Fonts -->
     <dimen name="text_size_title">32sp</dimen>
     <dimen name="text_size_subtitle">24sp</dimen>
     <dimen name="text_size_normal">16sp</dimen>
     <dimen name="text_size_tiny">14sp</dimen>
+
+    <!-- Line height -->
+    <dimen name="button_line_height">24sp</dimen>
+
+    <!-- Letter spacing -->
+    <dimen name="button_letter_spacing">0.04</dimen>
 </resources>

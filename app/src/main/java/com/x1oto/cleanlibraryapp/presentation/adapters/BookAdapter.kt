@@ -20,12 +20,12 @@ class BookAdapter(val onBookClicked: (Long) -> Unit) : RecyclerView.Adapter<Book
 
         fun bind(book: Book, onBookClicked: (Long) -> Unit) {
             binding.run {
-                titleTv.text = book.title
-                countTv.text = book.borrowCount.toString()
-                authorTv.text = book.author
-                yearTv.text = book.year.toString()
+                textViewTitle.text = book.title
+                textViewBorrowCount.text = book.borrowCount.toString()
+                textViewAuthor.text = book.author
+                textViewYear.text = book.year.toString()
 
-                itemCv.setOnClickListener {
+                cardViewBook.setOnClickListener {
                     onBookClicked(book.id)
                 }
             }

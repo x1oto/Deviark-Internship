@@ -31,7 +31,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         val chance = generateRandomInt()
         delay(delayMs)
         when (chance) {
-            in 0..80 -> {
+            in 0..95 -> {
                 emit(Result.success(books))
             }
             else -> {
@@ -68,7 +68,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         val chance = generateRandomInt()
         delay(term)
         when (chance) {
-            in 0..80 -> {
+            in 0..95 -> {
                 emit(Result.success(books.sortedByDescending { it.borrowCount }))
             }
             else -> {
@@ -81,7 +81,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         val chance = generateRandomInt()
         delay(term)
         when (chance) {
-            in 0..80 -> {
+            in 0..95 -> {
                 emit(Result.success(books.sortedBy { it.borrowCount }))
             }
             else -> {
@@ -94,7 +94,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         val chance = generateRandomInt()
         delay(term)
         when (chance) {
-            in 0..80 -> {
+            in 0..95 -> {
                 emit(
                     Result.success(
                         books.filter {
@@ -119,7 +119,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
             val chance = generateRandomInt()
             delay(delayMs)
             when (chance) {
-                in 0..90 -> {
+                in 0..95 -> {
                     books = updatedBooks as MutableList<Book>
                     Result.success(true)
                 }
