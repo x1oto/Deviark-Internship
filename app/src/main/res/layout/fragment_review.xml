@@ -8,48 +8,50 @@
     tools:context=".presentation.mvvm.view.review.ReviewFragment">
 
     <TextView
-        android:id="@+id/bookReviewLabelTv"
+        android:id="@+id/textViewBookReviewLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        style="@style/Poppins.Regular.SubTitle"
         android:text="@string/reviews"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Poppins.Medium.Title"
+        android:maxLength="4"
+        android:text="@string/empty_rate"
+        app:layout_constraintEnd_toStartOf="@id/imageViewStar"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/textViewBookReviewLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBookReviewLabel" />
 
-        <TextView
-            android:id="@+id/rateTv"
-            app:layout_constraintStart_toStartOf="@+id/bookReviewLabelTv"
-            app:layout_constraintEnd_toStartOf="@id/starIv"
-            app:layout_constraintTop_toBottomOf="@+id/bookReviewLabelTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            android:text="@string/empty_rate" />
-
-        <ImageView
-            android:id="@+id/starIv"
-            app:layout_constraintTop_toTopOf="@+id/rateTv"
-            app:layout_constraintBottom_toBottomOf="@+id/rateTv"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            app:layout_constraintStart_toEndOf="@id/rateTv"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/bookReviewLabelTv"
-            android:contentDescription="@string/star"
-            android:src="@drawable/star_24px" />
+    <ImageView
+        android:id="@+id/imageViewStar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/star"
+        android:src="@drawable/star_24px"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewRate"
+        app:layout_constraintEnd_toEndOf="@+id/textViewBookReviewLabel"
+        app:layout_constraintStart_toEndOf="@id/textViewRate"
+        app:layout_constraintTop_toTopOf="@+id/textViewRate" />
 
     <TextView
-        android:id="@+id/reviewsQuantityTv"
+        android:id="@+id/textViewReviewsQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        style="@style/Poppins.Regular.Normal"
         android:text="@string/based_on_reviews"
-        app:layout_constraintEnd_toEndOf="@+id/starIv"
-        app:layout_constraintStart_toStartOf="@+id/rateTv"
-        app:layout_constraintTop_toBottomOf="@+id/rateTv" />
+        app:layout_constraintEnd_toEndOf="@+id/imageViewStar"
+        app:layout_constraintStart_toStartOf="@+id/textViewRate"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRate" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -60,17 +62,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reviewsQuantityTv" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewReviewsQuantity" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/reviewRv"
+        android:id="@+id/recyclerViewReviews"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reviewsQuantityTv" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewReviewsQuantity" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

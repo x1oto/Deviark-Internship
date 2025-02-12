@@ -4,47 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".presentation.mvvm.view.editbook.EditBookFragment">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewFieldEditLabel"
+        style="@style/Poppins.Medium.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="What field do you wanna edit?"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:gravity="center"
+        android:text="@string/what_field_do_you_wanna_edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewModeratorsAlert"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Our moderators will check out your edits"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        android:text="@string/moderators_check_alert"
+        app:layout_constraintEnd_toEndOf="@+id/textViewFieldEditLabel"
+        app:layout_constraintStart_toStartOf="@+id/textViewFieldEditLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFieldEditLabel" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleIl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView">
+        app:layout_constraintTop_toBottomOf="@id/textViewModeratorsAlert">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/titleEditText"
+            style="@style/EditText.Base.Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"
+            android:hint="@string/title"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -53,10 +53,7 @@
         android:id="@+id/authorIl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-
-        android:layout_marginEnd="16dp"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,9 +61,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/authorEditText"
+            style="@style/EditText.Base.Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Author"
+            android:hint="@string/author"
             android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -75,9 +73,7 @@
         android:id="@+id/yearIl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,21 +81,20 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/yearEditText"
+            style="@style/EditText.Base.Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Year"
+            android:hint="@string/year"
             android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonSend"
+        style="@style/Button.Base"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Send"
+        android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -72,9 +72,9 @@ class ReviewFragment : Fragment() {
 
     private fun setupTextViews(averageRate: String = "-", count: Int = 0) {
         binding.run {
-            rateTv.text = averageRate
+            textViewRate.text = averageRate
             val reviewCount = resources.getQuantityString(com.x1oto.cleanlibraryapp.R.plurals.reviews_count, count, count)
-            reviewsQuantityTv.text = reviewCount
+            textViewReviewsQuantity.text = reviewCount
         }
     }
 
@@ -91,7 +91,7 @@ class ReviewFragment : Fragment() {
 
     private fun initRecyclerView() {
         reviewAdapter = ReviewAdapter()
-        binding.reviewRv.adapter = reviewAdapter
+        binding.recyclerViewReviews.adapter = reviewAdapter
     }
 
     private fun fetchReviewsSummary() {
@@ -100,7 +100,7 @@ class ReviewFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.reviewRv.visibility = if (isLoading) View.GONE else View.VISIBLE
+        binding.recyclerViewReviews.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
     override fun onDestroyView() {

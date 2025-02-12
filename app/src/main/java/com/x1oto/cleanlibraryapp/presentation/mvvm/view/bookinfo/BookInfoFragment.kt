@@ -47,12 +47,12 @@ class BookInfoFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.moveToEditBookBt.setOnClickListener {
+        binding.buttonEditBook.setOnClickListener {
             val action = BookInfoFragmentDirections.moveToEditBookFragment()
             findNavController().navigate(action)
         }
 
-        binding.confirmationBt.setOnClickListener {
+        binding.buttonShowDialog.setOnClickListener {
             val action = BookInfoFragmentDirections.moveToAreYouSureDialog()
             findNavController().navigate(action)
         }
@@ -65,25 +65,25 @@ class BookInfoFragment : Fragment() {
     private fun subscribeToObservables() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
-            binding.group.visibility = if(it) View.GONE else View.VISIBLE
+            binding.groupActions.visibility = if(it) View.GONE else View.VISIBLE
         }
 
         viewModel.bookLiveData.observe(viewLifecycleOwner) { book ->
 
-            binding.rateBt.setOnClickListener {
+            binding.buttonRate.setOnClickListener {
                 val action = BookInfoFragmentDirections.actionBookInfoFragmentToReviewFragment(book.id)
                 findNavController().navigate(action)
             }
 
             binding.run {
-                idTextView.text = book.id.toString()
-                titleTextView.text = book.title
-                authorTextView.text = book.author
-                genreTextView.text = book.genre.name
-                yearTextView.text = book.year.toString()
-                borrowCountTextView.text = book.borrowCount.toString()
-                isBorrowedTextView.text = book.isBorrowed.toString()
-                lastBorrowedTimestampTextView.text = book.lastBorrowedTimestamp?.toString() ?: "-"
+                textViewId.text = book.id.toString()
+                textViewTitle.text = book.title
+                textViewAuthor.text = book.author
+                textViewGenre.text = book.genre.name
+                textViewYear.text = book.year.toString()
+                textViewBorrowCount.text = book.borrowCount.toString()
+                textViewIsBorrowed.text = book.isBorrowed.toString()
+                textViewLastBorrowedTimestamp.text = book.lastBorrowedTimestamp?.toString() ?: "-"
             }
         }
 

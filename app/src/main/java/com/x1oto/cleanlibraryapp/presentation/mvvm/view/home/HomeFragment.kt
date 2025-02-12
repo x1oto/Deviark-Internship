@@ -72,7 +72,7 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToBookInfoFragment(bookId)
             findNavController().navigate(action)
         }
-        binding.booksRv.adapter = bookAdapter
+        binding.recyclerViewBooks.adapter = bookAdapter
     }
 
     private fun subscribeObservables() {
@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.booksRv.visibility = if (isLoading) View.GONE else View.VISIBLE
+        binding.recyclerViewBooks.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
     private fun showToast(message: String) {

@@ -20,7 +20,7 @@ class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
 
         fun bind(review: Review) {
             binding.reviewTv.text = review.text
-            binding.nicknameTv.text = review.nickname
+            binding.textViewNickname.text = review.nickname
         }
 
         companion object {

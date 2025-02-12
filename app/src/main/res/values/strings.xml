@@ -13,8 +13,25 @@
     <string name="query">Query</string>
     <string name="borrowed_count">Borrowed count:</string>
 
+
+    <string name="id">ID</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="genre">Genre</string>
+    <string name="year">Year</string>
+    <string name="borrow_count">Borrow Count</string>
+    <string name="is_borrowed">Is Borrowed</string>
+    <string name="last_borrowed_timestamp">Last Borrowed Timestamp</string>
+    <string name="see_reviews">See reviews</string>
+    <string name="edit_book">Edit book</string>
+    <string name="show_dialog">Show dialog</string>
+    <string name="barrier">Barrier</string>
+    <string name="what_field_do_you_wanna_edit">What field do you wanna edit?</string>
+    <string name="moderators_check_alert">Our moderators will check out your edits</string>
+    <string name="send">Send</string>
+
+
     <plurals name="reviews_count">
-        <item quantity="zero">No reviews</item>
         <item quantity="one">%d review</item>
         <item quantity="other">%d reviews</item>
     </plurals>

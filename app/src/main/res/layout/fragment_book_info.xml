@@ -10,258 +10,230 @@
 
     <!-- ID -->
     <TextView
-        android:id="@+id/idLabelTextView"
+        android:id="@+id/textViewIdLabel"
+        style="@style/Poppins.Medium.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="ID:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="@string/id"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/idTextView"
+        android:id="@+id/textViewId"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/idLabelTextView"
-        app:layout_constraintTop_toTopOf="@id/idLabelTextView" />
+        app:layout_constraintStart_toEndOf="@id/textViewIdLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewIdLabel" />
 
     <!-- Title -->
     <TextView
-        android:id="@+id/titlePlainTextView"
+        android:id="@+id/textViewTitleLabel"
+        style="@style/Poppins.Medium.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Title:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="@string/title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/idLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/textViewIdLabel" />
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/textViewTitle"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/titlePlainTextView"
-        app:layout_constraintTop_toTopOf="@id/titlePlainTextView" />
+        app:layout_constraintStart_toEndOf="@id/textViewTitleLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewTitleLabel" />
 
     <!-- Author -->
     <TextView
-        android:id="@+id/authorLabelTextView"
+        android:id="@+id/textViewAuthorLabel"
+        style="@style/Poppins.Medium.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Author:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="@string/author"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titlePlainTextView" />
+        app:layout_constraintTop_toBottomOf="@id/textViewTitleLabel" />
 
     <TextView
-        android:id="@+id/authorTextView"
+        android:id="@+id/textViewAuthor"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/authorLabelTextView"
-        app:layout_constraintTop_toTopOf="@id/authorLabelTextView" />
+        app:layout_constraintStart_toEndOf="@id/textViewAuthorLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewAuthorLabel" />
 
     <!-- Genre -->
     <TextView
-        android:id="@+id/genreLabelTextView"
+        android:id="@+id/textViewGenreLabel"
+        style="@style/Poppins.Medium.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Genre:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="@string/genre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/authorLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/textViewAuthorLabel" />
 
     <TextView
-        android:id="@+id/genreTextView"
+        android:id="@+id/textViewGenre"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/genreLabelTextView"
-        app:layout_constraintTop_toTopOf="@id/genreLabelTextView" />
+        app:layout_constraintStart_toEndOf="@id/textViewGenreLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewGenreLabel" />
 
     <!-- Year -->
     <TextView
-        android:id="@+id/yearLabelTextView"
+        android:id="@+id/textViewYearLabel"
+        style="@style/Poppins.Medium.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Year:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="@string/year"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/genreLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/textViewGenreLabel" />
 
     <TextView
-        android:id="@+id/yearTextView"
+        android:id="@+id/textViewYear"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/yearLabelTextView"
-        app:layout_constraintTop_toTopOf="@id/yearLabelTextView" />
+        app:layout_constraintStart_toEndOf="@id/textViewYearLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewYearLabel" />
 
     <!-- Borrow Count -->
     <TextView
-        android:id="@+id/borrowCountLabelTextView"
+        android:id="@+id/textViewBorrowCountLabel"
+        style="@style/Poppins.Medium.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Borrow Count:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="@string/borrow_count"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/yearLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/textViewYearLabel" />
 
     <TextView
-        android:id="@+id/borrowCountTextView"
+        android:id="@+id/textViewBorrowCount"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/borrowCountLabelTextView"
-        app:layout_constraintTop_toTopOf="@id/borrowCountLabelTextView" />
+        app:layout_constraintStart_toEndOf="@id/textViewBorrowCountLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewBorrowCountLabel" />
 
     <!-- Is Borrowed -->
     <TextView
-        android:id="@+id/isBorrowedLabelTextView"
+        android:id="@+id/textViewIsBorrowedLabel"
+        style="@style/Poppins.Medium.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Is Borrowed:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="@string/is_borrowed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/borrowCountLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/textViewBorrowCountLabel" />
 
     <TextView
-        android:id="@+id/isBorrowedTextView"
+        android:id="@+id/textViewIsBorrowed"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/isBorrowedLabelTextView"
-        app:layout_constraintTop_toTopOf="@id/isBorrowedLabelTextView" />
+        app:layout_constraintStart_toEndOf="@id/textViewIsBorrowedLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewIsBorrowedLabel" />
 
     <!-- Last Borrowed Timestamp -->
     <TextView
-        android:id="@+id/lastBorrowedTimestampLabelTextView"
+        android:id="@+id/textViewLastBorrowedTimestampLabel"
+        style="@style/Poppins.Medium.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Last Borrowed Timestamp:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:text="@string/last_borrowed_timestamp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/isBorrowedLabelTextView" />
+        app:layout_constraintTop_toBottomOf="@id/textViewIsBorrowedLabel" />
 
     <TextView
-        android:id="@+id/lastBorrowedTimestampTextView"
+        android:id="@+id/textViewLastBorrowedTimestamp"
+        style="@style/Poppins.Regular.Normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/lastBorrowedTimestampLabelTextView"
-        app:layout_constraintTop_toTopOf="@id/lastBorrowedTimestampLabelTextView" />
+        app:layout_constraintStart_toEndOf="@id/textViewLastBorrowedTimestampLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewLastBorrowedTimestampLabel" />
 
+    <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLastBorrowedTimestampLabel" />
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/buttonRate"
+        style="@style/Button.Base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/see_reviews"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEditBook"
+        app:layout_constraintEnd_toEndOf="@+id/buttonEditBook"
+        app:layout_constraintStart_toStartOf="@+id/buttonEditBook" />
+
+    <Button
+        android:id="@+id/buttonEditBook"
+        style="@style/Button.Base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_book"
+        app:layout_constraintBottom_toTopOf="@+id/buttonShowDialog"
+        app:layout_constraintEnd_toEndOf="@+id/buttonShowDialog"
+        app:layout_constraintStart_toStartOf="@+id/buttonShowDialog" />
+
+    <Button
+        android:id="@+id/buttonShowDialog"
+        style="@style/Button.Base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_dialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/rateBt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="See reviews"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastBorrowedTimestampLabelTextView" />
-
-    <Button
-        android:id="@+id/moveToEditBookBt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit book"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rateBt" />
-
-    <Button
-        android:id="@+id/confirmationBt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show dialog"
-        app:layout_constraintTop_toBottomOf="@+id/moveToEditBookBt"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <!--  Group  -->
+    <!-- Group -->
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/group"
+        android:id="@+id/groupActions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="rateBt, moveToEditBookBt, confirmationBt" />
+        android:visibility="invisible"
+        app:constraint_referenced_ids="buttonRate,buttonEditBook,buttonShowDialog" />
 
-    <!--  Barrier  -->
+    <!-- Barrier -->
     <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/startBarrier"
+        android:id="@+id/barrierStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="end"
-        app:constraint_referenced_ids="idTextView, titleTextView, authorTextView, genreTextView, yearTextView, borrowCountTextView, isBorrowedTextView, lastBorrowedTimestampTextView"/>
+        app:constraint_referenced_ids="textViewId,textViewTitle,textViewAuthor,textViewGenre,textViewYear,textViewBorrowCount,textViewIsBorrowed,textViewLastBorrowedTimestamp" />
 
     <TextView
-        android:id="@+id/barrierTv"
+        android:id="@+id/textViewBarrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Barrier"
-        app:layout_constraintStart_toEndOf="@id/startBarrier"
+        android:text="@string/barrier"
+        app:layout_constraintStart_toEndOf="@id/barrierStart"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/likeTooLabelTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="You may like too:"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmationBt" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="-16dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/likeTooLabelTv">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="-16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

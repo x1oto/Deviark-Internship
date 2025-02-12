@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
+    android:clipToPadding="false"
     tools:context=".presentation.mvvm.view.home.HomeFragment">
 
     <Button
@@ -11,33 +13,31 @@
         style="@style/Button.Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:text="@string/search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextQuery"
+        style="@style/EditText.Base.Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:hint="@string/query"
-        style="@style/EditText.Base.Text"
-        app:layout_constraintEnd_toStartOf="@+id/buttonSearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/booksRv"
+        android:id="@+id/recyclerViewBooks"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
+        android:layout_marginStart="-16dp"
+        android:layout_marginEnd="-16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/buttonAddBook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSearch"
-        app:layout_constraintBottom_toTopOf="@id/buttonAddBook" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSearch" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -45,11 +45,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/booksRv"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewBooks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/booksRv"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewBooks"
         app:layout_constraintVertical_bias="0.5"
         tools:visibility="visible" />
 
