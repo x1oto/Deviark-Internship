@@ -3,51 +3,57 @@ package com.x1oto.cleanlibraryapp.presentation.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.x1oto.cleanlibraryapp.R
 import com.x1oto.cleanlibraryapp.databinding.ItemBookBinding
-import com.x1oto.domain.model.Book
+import com.x1oto.cleanlibraryapp.databinding.ItemLetterBinding
 
-class BookAdapter(val onBookClicked: (Long) -> Unit) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+class BookAdapter(private val onBookClicked: (Long) -> Unit) :
+    RecyclerView.Adapter<HomeRecyclerViewHolder>() {
 
-    private var books: List<Book> = emptyList()
-
-    fun setBooks(books: List<Book>) {
-        this.books = books
-        notifyDataSetChanged()
-    }
-
-    class BookViewHolder(private val binding: ItemBookBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(book: Book, onBookClicked: (Long) -> Unit) {
-            binding.run {
-                textViewTitle.text = book.title
-                textViewBorrowCount.text = book.borrowCount.toString()
-                textViewAuthor.text = book.author
-                textViewYear.text = book.year.toString()
-
-                cardViewBook.setOnClickListener {
-                    onBookClicked(book.id)
-                }
-            }
+    var items = listOf<HomeRecyclerViewItem>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
         }
 
-        companion object {
-            fun from(parent: ViewGroup): BookViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemBookBinding.inflate(layoutInflater, parent, false)
-                return BookViewHolder(binding)
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeRecyclerViewHolder {
+        return when (viewType) {
+            R.layout.item_letter -> HomeRecyclerViewHolder.LetterViewHolder(
+                ItemLetterBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+
+            R.layout.item_book -> HomeRecyclerViewHolder.BookViewHolder(
+                ItemBookBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+
+            else -> throw IllegalArgumentException("An extra parameter was passed to recycler view.")
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ) = BookViewHolder.from(parent)
-
-    override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        holder.bind(books[position], onBookClicked)
+    override fun onBindViewHolder(holder: HomeRecyclerViewHolder, position: Int) {
+        when (holder) {
+            is HomeRecyclerViewHolder.LetterViewHolder -> holder.bind(items[position] as HomeRecyclerViewItem.Letter)
+            is HomeRecyclerViewHolder.BookViewHolder -> holder.bind(
+                items[position] as HomeRecyclerViewItem.Book,
+                onBookClicked
+            )
+        }
     }
 
-    override fun getItemCount() = books.size
+    override fun getItemCount() = items.size
+
+    override fun getItemViewType(position: Int): Int {
+        return when (items[position]) {
+            is HomeRecyclerViewItem.Letter -> R.layout.item_letter
+            is HomeRecyclerViewItem.Book -> R.layout.item_book
+        }
+    }
 }

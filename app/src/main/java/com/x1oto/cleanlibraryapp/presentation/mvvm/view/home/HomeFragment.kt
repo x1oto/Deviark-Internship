@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.x1oto.cleanlibraryapp.databinding.FragmentHomeBinding
 import com.x1oto.cleanlibraryapp.presentation.adapters.BookAdapter
 import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.home.HomeViewModel
+import com.x1oto.cleanlibraryapp.presentation.utlis.toRecyclerViewItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -86,7 +87,7 @@ class HomeFragment : Fragment() {
 
         viewModel.booksLiveData.observe(viewLifecycleOwner) { books ->
             viewModel.checkTemporaryBooks(books)
-            bookAdapter.setBooks(books)
+            bookAdapter.items = books.toRecyclerViewItem()
 
             binding.buttonAddBook.setOnClickListener {
                 viewModel.addBook(books)
