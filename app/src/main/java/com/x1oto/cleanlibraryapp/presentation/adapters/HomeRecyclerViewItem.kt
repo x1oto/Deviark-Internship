@@ -14,7 +14,7 @@ sealed interface HomeRecyclerViewItem {
         val year: Short,
         var borrowCount: Int = 0,
         var isBorrowed: Boolean = false,
-        var lastBorrowedTimestamp: Long? = null
+        var lastBorrowedTimestamp: Long? = null,
     ) : HomeRecyclerViewItem
 
 }

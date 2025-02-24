@@ -1,5 +1,6 @@
 package com.x1oto.cleanlibraryapp.presentation.adapters
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.x1oto.cleanlibraryapp.databinding.ItemBookBinding
@@ -13,17 +14,16 @@ sealed class HomeRecyclerViewHolder(binding: ViewBinding) : RecyclerView.ViewHol
         }
     }
 
-    class BookViewHolder(private val binding: ItemBookBinding) : HomeRecyclerViewHolder(binding) {
-        fun bind(book: HomeRecyclerViewItem.Book, onBookClicked: (Long) -> Unit) {
+    class BookViewHolder(val binding: ItemBookBinding) : HomeRecyclerViewHolder(binding) {
+        @SuppressLint("SetTextI18n")
+        fun bind(
+            book: HomeRecyclerViewItem.Book
+        ) {
             binding.run {
                 textViewTitle.text = book.title
                 textViewBorrowCount.text = book.borrowCount.toString()
                 textViewAuthor.text = book.author
                 textViewYear.text = book.year.toString()
-
-                cardViewBook.setOnClickListener {
-                    onBookClicked(book.id)
-                }
             }
         }
     }

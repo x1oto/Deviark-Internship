@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        bookAdapter = BookAdapter { bookId ->
+        bookAdapter = BookAdapter(requireActivity()) { bookId ->
             val action = HomeFragmentDirections.actionHomeFragmentToBookInfoFragment(bookId)
             findNavController().navigate(action)
         }

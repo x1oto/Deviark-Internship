@@ -29,6 +29,7 @@
     <string name="what_field_do_you_wanna_edit">What field do you wanna edit?</string>
     <string name="moderators_check_alert">Our moderators will check out your edits</string>
     <string name="send">Send</string>
+    <string name="delete_favorite_book">Delete favorite book</string>
 
 
     <plurals name="reviews_count">
