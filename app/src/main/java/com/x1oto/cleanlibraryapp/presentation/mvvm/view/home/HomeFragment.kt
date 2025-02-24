@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
 
         viewModel.booksLiveData.observe(viewLifecycleOwner) { books ->
             viewModel.checkTemporaryBooks(books)
-            bookAdapter.items = books.toRecyclerViewItem()
+            bookAdapter.setData(books.toRecyclerViewItem())
 
             binding.buttonAddBook.setOnClickListener {
                 viewModel.addBook(books)

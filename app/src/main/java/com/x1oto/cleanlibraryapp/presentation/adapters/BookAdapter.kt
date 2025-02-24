@@ -11,10 +11,13 @@ class BookAdapter(private val onBookClicked: (Long) -> Unit) :
     RecyclerView.Adapter<HomeRecyclerViewHolder>() {
 
     var items = listOf<HomeRecyclerViewItem>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+
+    fun setData(newList: List<HomeRecyclerViewItem>) {
+        val diffUtil = DiffUtil(items, newList)
+        val diffResults = androidx.recyclerview.widget.DiffUtil.calculateDiff(diffUtil)
+        items = newList
+        diffResults.dispatchUpdatesTo(this@BookAdapter)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeRecyclerViewHolder {
         return when (viewType) {
