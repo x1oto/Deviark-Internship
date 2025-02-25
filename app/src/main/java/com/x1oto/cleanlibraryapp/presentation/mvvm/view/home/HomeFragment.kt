@@ -69,10 +69,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        bookAdapter = BookAdapter(requireActivity()) { bookId ->
+        bookAdapter = BookAdapter(requireActivity(), { bookId ->
             val action = HomeFragmentDirections.actionHomeFragmentToBookInfoFragment(bookId)
             findNavController().navigate(action)
-        }
+        },
+        { toDeleteIds ->
+            viewModel.deleteBookWithIds(toDeleteIds)
+        })
+
         binding.recyclerViewBooks.adapter = bookAdapter
     }
 

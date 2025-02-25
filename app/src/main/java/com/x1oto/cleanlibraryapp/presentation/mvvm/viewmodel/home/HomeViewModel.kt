@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.x1oto.domain.model.Book
+import com.x1oto.domain.usecases.DeleteBooksUC
 import com.x1oto.domain.usecases.FetchBooksUC
 import com.x1oto.domain.usecases.GetLessPopularBooksUC
 import com.x1oto.domain.usecases.GetMostPopularBooksUC
@@ -27,7 +28,8 @@ class HomeViewModel @Inject constructor(
     private val getMostPopularBooksUC: GetMostPopularBooksUC,
     private val getLessPopularBooksUC: GetLessPopularBooksUC,
     private val searchBooksByQueryUC: SearchBooksByQueryUC,
-    private val updateBooksUC: UpdateBooksUC
+    private val updateBooksUC: UpdateBooksUC,
+    private val deleteBooksUC: DeleteBooksUC
 ) : ViewModel() {
 
     private val _loadingLiveData = MutableLiveData<Boolean>()
@@ -180,5 +182,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
+    fun deleteBookWithIds(toDeleteIds: List<Long>) {
+        deleteBooksUC(toDeleteIds)
+        fetchBooks()
+    }
 }

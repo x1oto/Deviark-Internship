@@ -131,6 +131,14 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         }
     }
 
+    override fun deleteBooks(ids: List<Long>) {
+        ids.forEach { id ->
+            books.removeIf {
+                id == it.id
+            }
+        }
+    }
+
     override suspend fun fetchBookById(id: Long): Result<Book> {
         delay(600)
         val foundedBook = books.find { it.id == id }

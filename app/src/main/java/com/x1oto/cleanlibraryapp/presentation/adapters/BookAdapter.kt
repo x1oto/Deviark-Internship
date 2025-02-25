@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,8 @@ import com.x1oto.cleanlibraryapp.databinding.ItemLetterBinding
 
 class BookAdapter(
     private val requireActivity: FragmentActivity,
-    private val onBookClicked: (Long) -> Unit
+    private val onBookClicked: (Long) -> Unit,
+    private val onDeleteBook: (List<Long>) -> Unit
 ) : RecyclerView.Adapter<HomeRecyclerViewHolder>(), ActionMode.Callback {
 
     private var items = listOf<HomeRecyclerViewItem>()
@@ -57,25 +59,25 @@ class BookAdapter(
         when (holder) {
             is HomeRecyclerViewHolder.LetterViewHolder -> holder.bind(items[position] as HomeRecyclerViewItem.Letter)
             is HomeRecyclerViewHolder.BookViewHolder -> {
+                val currentBook = items[position] as HomeRecyclerViewItem.Book
                 bookViewHolder.add(holder)
-                holder.bind(
-                    items[position] as HomeRecyclerViewItem.Book,
-                )
+
+                holder.bind(currentBook)
                 holder.binding.cardViewBook.setOnClickListener {
                     if(multiSelection) {
-                        applySelection(holder, items[position] as HomeRecyclerViewItem.Book)
+                        applySelection(holder, currentBook)
                     } else {
-                        onBookClicked((items[position] as HomeRecyclerViewItem.Book).id)
+                        onBookClicked(currentBook.id)
                     }
                 }
+
                 holder.binding.cardViewBook.setOnLongClickListener {
                     if(!multiSelection) {
                         multiSelection = true
                         requireActivity.startActionMode(this)
-                        applySelection(holder, items[position] as HomeRecyclerViewItem.Book)
+                        applySelection(holder, currentBook)
                         true
                     } else {
-                        multiSelection = false
                         false
                     }
                 }
@@ -130,6 +132,7 @@ class BookAdapter(
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        onDeleteBook(selectedBooks.map { it.id })
         return true
     }
 

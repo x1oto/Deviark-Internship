@@ -12,6 +12,7 @@ interface BookRepository {
     fun getLessPopularBooks(delayMs: Long): Flow<Result<List<Book>>>
     fun searchBooksByQuery(query: String, delayMs: Long): Flow<Result<List<Book>>>
     suspend fun updateBooks(updatedBooks: List<Book>, delayMs: Long): Result<Boolean>
+    fun deleteBooks(ids: List<Long>)
 
     // Methods that we use in BookInfoFragment
     suspend fun fetchBookById(id: Long): Result<Book>
