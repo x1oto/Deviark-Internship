@@ -1,26 +1,34 @@
 package com.x1oto.cleanlibraryapp.presentation.adapters
 
-import android.text.style.BackgroundColorSpan
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.x1oto.cleanlibraryapp.R
 import com.x1oto.cleanlibraryapp.databinding.ItemBookBinding
 import com.x1oto.cleanlibraryapp.databinding.ItemLetterBinding
+
 
 class BookAdapter(
     private val requireActivity: FragmentActivity,
     private val onBookClicked: (Long) -> Unit,
     private val onDeleteBook: (List<Long>) -> Unit
-) : RecyclerView.Adapter<HomeRecyclerViewHolder>(), ActionMode.Callback {
+) : RecyclerView.Adapter<BookAdapter.HomeRecyclerViewHolder>(), ActionMode.Callback {
+
+    sealed class HomeRecyclerViewHolder(binding: ViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        class LetterViewHolder(val binding: ItemLetterBinding) : HomeRecyclerViewHolder(binding)
+        class BookViewHolder(val binding: ItemBookBinding) : HomeRecyclerViewHolder(binding)
+    }
 
     private var items = listOf<HomeRecyclerViewItem>()
+
+    private var actionMode: ActionMode? = null
 
     private var multiSelection = false
     private var bookViewHolder = arrayListOf<HomeRecyclerViewHolder.BookViewHolder>()
@@ -57,29 +65,61 @@ class BookAdapter(
 
     override fun onBindViewHolder(holder: HomeRecyclerViewHolder, position: Int) {
         when (holder) {
-            is HomeRecyclerViewHolder.LetterViewHolder -> holder.bind(items[position] as HomeRecyclerViewItem.Letter)
+            is HomeRecyclerViewHolder.LetterViewHolder -> {
+                val currentLetter = items[position] as HomeRecyclerViewItem.Letter
+                setupLetterUI(holder, currentLetter)
+            }
+
             is HomeRecyclerViewHolder.BookViewHolder -> {
                 val currentBook = items[position] as HomeRecyclerViewItem.Book
+                setupBookUI(holder, currentBook)
                 bookViewHolder.add(holder)
 
-                holder.bind(currentBook)
-                holder.binding.cardViewBook.setOnClickListener {
-                    if(multiSelection) {
-                        applySelection(holder, currentBook)
-                    } else {
-                        onBookClicked(currentBook.id)
-                    }
-                }
+                setupBookClickListeners(holder, currentBook)
+            }
+        }
+    }
 
-                holder.binding.cardViewBook.setOnLongClickListener {
-                    if(!multiSelection) {
-                        multiSelection = true
-                        requireActivity.startActionMode(this)
-                        applySelection(holder, currentBook)
-                        true
-                    } else {
-                        false
-                    }
+    private fun setupLetterUI(
+        holder: HomeRecyclerViewHolder.LetterViewHolder,
+        currentLetter: HomeRecyclerViewItem.Letter
+    ) {
+        holder.binding.textViewLetter.text = currentLetter.char.toString()
+    }
+
+    private fun setupBookUI(
+        holder: HomeRecyclerViewHolder.BookViewHolder,
+        currentBook: HomeRecyclerViewItem.Book
+    ) {
+        holder.binding.run {
+            textViewTitle.text = currentBook.title
+            textViewYear.text = currentBook.year.toString()
+            textViewBorrowCount.text = currentBook.borrowCount.toString()
+            textViewAuthor.text = currentBook.author
+        }
+    }
+
+    private fun setupBookClickListeners(
+        holder: HomeRecyclerViewHolder.BookViewHolder,
+        currentBook: HomeRecyclerViewItem.Book
+    ) {
+        holder.binding.run {
+            cardViewBook.setOnClickListener {
+                if (multiSelection) {
+                    applySelection(holder, currentBook)
+                } else {
+                    onBookClicked(currentBook.id)
+                }
+            }
+
+            cardViewBook.setOnLongClickListener {
+                if (!multiSelection) {
+                    multiSelection = true
+                    actionMode = requireActivity.startActionMode(this@BookAdapter)
+                    applySelection(holder, currentBook)
+                    true
+                } else {
+                    false
                 }
             }
         }
@@ -92,10 +132,19 @@ class BookAdapter(
         if (selectedBooks.contains(currentBook)) {
             selectedBooks.remove(currentBook)
             changeBookStyle(holder, R.color.md_theme_background, R.color.md_theme_onBackground)
+            finishActionIfListEmpty()
         } else {
             selectedBooks.add(currentBook)
-            changeBookStyle(holder, R.color.md_theme_inversePrimary_mediumContrast, R.color.md_theme_onPrimaryFixedVariant)
+            changeBookStyle(
+                holder,
+                R.color.md_theme_inversePrimary_mediumContrast,
+                R.color.md_theme_onPrimaryFixedVariant
+            )
         }
+    }
+
+    private fun finishActionIfListEmpty() {
+        if(selectedBooks.size == 0) actionMode?.finish()
     }
 
     private fun changeBookStyle(
