@@ -27,11 +27,8 @@ class BookAdapter(
     }
 
     private var items = listOf<HomeRecyclerViewItem>()
-
     private var actionMode: ActionMode? = null
-
     private var multiSelection = false
-    private var bookViewHolder = arrayListOf<HomeRecyclerViewHolder.BookViewHolder>()
     private val selectedBooks = arrayListOf<HomeRecyclerViewItem.Book>()
 
     fun setData(newList: List<HomeRecyclerViewItem>) {
@@ -68,13 +65,13 @@ class BookAdapter(
             is HomeRecyclerViewHolder.LetterViewHolder -> {
                 val currentLetter = items[position] as HomeRecyclerViewItem.Letter
                 setupLetterUI(holder, currentLetter)
+                setupLetterClickListeners(holder, currentLetter)
             }
 
             is HomeRecyclerViewHolder.BookViewHolder -> {
                 val currentBook = items[position] as HomeRecyclerViewItem.Book
                 setupBookUI(holder, currentBook)
-                bookViewHolder.add(holder)
-
+                applyBookStyle(holder, currentBook)
                 setupBookClickListeners(holder, currentBook)
             }
         }
@@ -106,7 +103,7 @@ class BookAdapter(
         holder.binding.run {
             cardViewBook.setOnClickListener {
                 if (multiSelection) {
-                    applySelection(holder, currentBook)
+                    applySelection(currentBook)
                 } else {
                     onBookClicked(currentBook.id)
                 }
@@ -116,7 +113,7 @@ class BookAdapter(
                 if (!multiSelection) {
                     multiSelection = true
                     actionMode = requireActivity.startActionMode(this@BookAdapter)
-                    applySelection(holder, currentBook)
+                    applySelection(currentBook)
                     true
                 } else {
                     false
@@ -125,26 +122,88 @@ class BookAdapter(
         }
     }
 
-    private fun applySelection(
+    private fun setupLetterClickListeners(
+        holder: HomeRecyclerViewHolder.LetterViewHolder,
+        currentLetter: HomeRecyclerViewItem.Letter
+    ) {
+        holder.binding.run {
+            cardViewLetter.setOnLongClickListener {
+                val booksToSelect = items.filterIsInstance<HomeRecyclerViewItem.Book>()
+                    .filter { it.title.startsWith(currentLetter.char, ignoreCase = true) }
+
+
+                if (!multiSelection) {
+                    multiSelection = true
+                    actionMode = requireActivity.startActionMode(this@BookAdapter)
+
+                    booksToSelect.forEach { book ->
+                        if (!selectedBooks.contains(book)) {
+                            selectedBooks.add(book)
+                        }
+                    }
+                }
+                notifyDataSetChanged()
+                true
+            }
+
+            cardViewLetter.setOnClickListener {
+                val booksToSelect = items.filterIsInstance<HomeRecyclerViewItem.Book>()
+                    .filter { it.title.startsWith(currentLetter.char, ignoreCase = true) }
+
+
+                if (multiSelection) {
+                    if (!selectedBooks.containsAll(booksToSelect)) {
+                        booksToSelect.forEach { book ->
+                            if (!selectedBooks.contains(book)) {
+                                selectedBooks.add(book)
+                            }
+                        }
+                    } else {
+                        selectedBooks.removeAll(booksToSelect)
+                        if (selectedBooks.isEmpty()) {
+                            actionMode?.finish()
+                            multiSelection = false
+                        }
+                    }
+                }
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+
+    private fun applyBookStyle(
         holder: HomeRecyclerViewHolder.BookViewHolder,
+        currentBook: HomeRecyclerViewItem.Book
+    ) {
+        val backgroundColor = if (selectedBooks.contains(currentBook)) {
+            R.color.md_theme_inversePrimary_mediumContrast
+        } else {
+            R.color.md_theme_background
+        }
+        val strokeColor = if (selectedBooks.contains(currentBook)) {
+
+            R.color.md_theme_inverseSurface
+        } else {
+            R.color.md_theme_scrim
+        }
+        changeBookStyle(holder, backgroundColor, strokeColor)
+    }
+
+    private fun applySelection(
         currentBook: HomeRecyclerViewItem.Book
     ) {
         if (selectedBooks.contains(currentBook)) {
             selectedBooks.remove(currentBook)
-            changeBookStyle(holder, R.color.md_theme_background, R.color.md_theme_onBackground)
             finishActionIfListEmpty()
         } else {
             selectedBooks.add(currentBook)
-            changeBookStyle(
-                holder,
-                R.color.md_theme_inversePrimary_mediumContrast,
-                R.color.md_theme_onPrimaryFixedVariant
-            )
         }
+        notifyDataSetChanged()
     }
 
     private fun finishActionIfListEmpty() {
-        if(selectedBooks.size == 0) actionMode?.finish()
+        if (selectedBooks.isEmpty()) actionMode?.finish()
     }
 
     private fun changeBookStyle(
@@ -152,14 +211,15 @@ class BookAdapter(
         backgroundColor: Int,
         strokeColor: Int
     ) {
-        holder.binding.cardViewBook.setBackgroundColor(
-            ContextCompat.getColor(
-                requireActivity,
-                backgroundColor
+        holder.binding.run {
+            cardViewBook.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireActivity,
+                    backgroundColor
+                )
             )
-        )
-        holder.binding.cardViewBook.strokeColor =
-            ContextCompat.getColor(requireActivity, strokeColor)
+            cardViewBook.strokeColor = strokeColor
+        }
     }
 
     override fun getItemCount() = items.size
@@ -182,14 +242,13 @@ class BookAdapter(
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         onDeleteBook(selectedBooks.map { it.id })
+        selectedBooks.clear()
+        finishActionIfListEmpty()
         return true
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
-        bookViewHolder.forEach { holder ->
-            changeBookStyle(holder, R.color.md_theme_background, R.color.md_theme_onBackground)
-        }
         multiSelection = false
-        selectedBooks.clear()
+        notifyDataSetChanged()
     }
 }
