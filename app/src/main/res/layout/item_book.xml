@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardViewBook"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
@@ -42,22 +43,39 @@
 
         <TextView
             android:id="@+id/textViewAuthor"
+            style="@style/Poppins.Regular.Normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            style="@style/Poppins.Regular.Normal"
             app:layout_constraintStart_toStartOf="@+id/textViewBorrowCountLabel"
             app:layout_constraintTop_toBottomOf="@+id/textViewBorrowCountLabel" />
 
         <TextView
             android:id="@+id/textViewYear"
             style="@style/Poppins.Regular.Normal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textViewAuthor"
             app:layout_constraintStart_toStartOf="@+id/textViewAuthor"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAuthor" />
+
+        <TextView
+            android:id="@+id/textViewIdLabel"
+            style="@style/Poppins.Regular.Normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/id"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewId"
+            app:layout_constraintEnd_toStartOf="@+id/textViewId"
+            app:layout_constraintTop_toTopOf="@+id/textViewId" />
+
+        <TextView
+            android:id="@+id/textViewId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewAuthor"
             app:layout_constraintTop_toBottomOf="@+id/textViewAuthor" />
 
 

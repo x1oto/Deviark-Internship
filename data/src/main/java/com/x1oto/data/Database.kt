@@ -61,15 +61,15 @@ object Database {
     )
 
    val randomBooks = mutableListOf(
-        Book(1, "THE GREAT GATSBY", "F. Scott Fitzgerald", Genre.CLASSIC, 1925, 8),
-        Book(2, "THE CATCHER IN THE RYE", "J.D. Salinger", Genre.CLASSIC, 1951, 6),
-        Book(3, "ALGORITHMS UNLOCKED", "Thomas H. Cormen", Genre.ALGORITHMS, 2013, 5),
-        Book(4, "THE DARK TOWER", "Stephen King", Genre.FANTASY, 1982, 7),
-        Book(5, "THE ART OF COMPUTER PROGRAMMING", "Donald E. Knuth", Genre.PROGRAMMING, 1968, 9),
-        Book(6, "THE MATRIX AND THE MIND", "Robert M. Pirsig", Genre.PHILOSOPHICAL, 2006, 4),
-        Book(7, "MEDITATIONS", "Marcus Aurelius", Genre.PHILOSOPHICAL, 180, 5),
-        Book(8, "THE ROAD LESS TRAVELLED", "M. Scott Peck", Genre.PHILOSOPHICAL, 1978, 8),
-        Book(9, "THE LORD OF THE RINGS", "J.R.R. Tolkien", Genre.FANTASY, 1954, 12)
+       Book(31, "THE GREAT GATSBY", "F. Scott Fitzgerald", Genre.CLASSIC, 1925, 8),
+       Book(32, "THE CATCHER IN THE RYE", "J.D. Salinger", Genre.CLASSIC, 1951, 6),
+       Book(33, "ALGORITHMS UNLOCKED", "Thomas H. Cormen", Genre.ALGORITHMS, 2013, 5),
+       Book(34, "THE DARK TOWER", "Stephen King", Genre.FANTASY, 1982, 7),
+       Book(35, "THE ART OF COMPUTER PROGRAMMING", "Donald E. Knuth", Genre.PROGRAMMING, 1968, 9),
+       Book(36, "THE MATRIX AND THE MIND", "Robert M. Pirsig", Genre.PHILOSOPHICAL, 2006, 4),
+       Book(37, "MEDITATIONS", "Marcus Aurelius", Genre.PHILOSOPHICAL, 180, 5),
+       Book(38, "THE ROAD LESS TRAVELLED", "M. Scott Peck", Genre.PHILOSOPHICAL, 1978, 8),
+       Book(39, "THE LORD OF THE RINGS", "J.R.R. Tolkien", Genre.FANTASY, 1954, 12)
     )
 
     val reviewsMap: Map<Long, List<ReviewDTO>> = mapOf(

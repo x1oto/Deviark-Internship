@@ -11,8 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.x1oto.cleanlibraryapp.databinding.FragmentHomeBinding
 import com.x1oto.cleanlibraryapp.presentation.adapters.BookAdapter
+import com.x1oto.cleanlibraryapp.presentation.adapters.SwipeCallback
 import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.home.HomeViewModel
 import com.x1oto.cleanlibraryapp.presentation.utlis.toRecyclerViewItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,11 +75,17 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToBookInfoFragment(bookId)
             findNavController().navigate(action)
         },
-        { toDeleteIds ->
-            viewModel.deleteBookWithIds(toDeleteIds)
+        { ids ->
+            viewModel.deleteBookWithIds(ids)
         })
 
         binding.recyclerViewBooks.adapter = bookAdapter
+
+        val swipeCallback = SwipeCallback { id ->
+            viewModel.deleteBookWithIds(listOf(id))
+        }
+
+        ItemTouchHelper(swipeCallback).attachToRecyclerView(binding.recyclerViewBooks)
     }
 
     private fun subscribeObservables() {

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.x1oto.cleanlibraryapp.R
@@ -73,8 +74,13 @@ class BookAdapter(
                 setupBookUI(holder, currentBook)
                 applyBookStyle(holder, currentBook)
                 setupBookClickListeners(holder, currentBook)
+
             }
         }
+    }
+
+    companion object {
+
     }
 
     private fun setupLetterUI(
@@ -89,6 +95,7 @@ class BookAdapter(
         currentBook: HomeRecyclerViewItem.Book
     ) {
         holder.binding.run {
+            textViewId.text = currentBook.id.toString()
             textViewTitle.text = currentBook.title
             textViewYear.text = currentBook.year.toString()
             textViewBorrowCount.text = currentBook.borrowCount.toString()
@@ -248,6 +255,7 @@ class BookAdapter(
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
+        selectedBooks.clear()
         multiSelection = false
         notifyDataSetChanged()
     }
