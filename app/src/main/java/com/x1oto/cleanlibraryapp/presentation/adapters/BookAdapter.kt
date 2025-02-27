@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.x1oto.cleanlibraryapp.R
@@ -79,10 +79,6 @@ class BookAdapter(
         }
     }
 
-    companion object {
-
-    }
-
     private fun setupLetterUI(
         holder: HomeRecyclerViewHolder.LetterViewHolder,
         currentLetter: HomeRecyclerViewItem.Letter
@@ -135,65 +131,65 @@ class BookAdapter(
     ) {
         holder.binding.run {
             cardViewLetter.setOnLongClickListener {
-                val booksToSelect = items.filterIsInstance<HomeRecyclerViewItem.Book>()
-                    .filter { it.title.startsWith(currentLetter.char, ignoreCase = true) }
-
-
-                if (!multiSelection) {
-                    multiSelection = true
-                    actionMode = requireActivity.startActionMode(this@BookAdapter)
-
-                    booksToSelect.forEach { book ->
-                        if (!selectedBooks.contains(book)) {
-                            selectedBooks.add(book)
-                        }
-                    }
-                }
-                notifyDataSetChanged()
+                selectAllBooksStartingWithLetter(currentLetter)
                 true
             }
 
             cardViewLetter.setOnClickListener {
-                val booksToSelect = items.filterIsInstance<HomeRecyclerViewItem.Book>()
-                    .filter { it.title.startsWith(currentLetter.char, ignoreCase = true) }
-
-
-                if (multiSelection) {
-                    if (!selectedBooks.containsAll(booksToSelect)) {
-                        booksToSelect.forEach { book ->
-                            if (!selectedBooks.contains(book)) {
-                                selectedBooks.add(book)
-                            }
-                        }
-                    } else {
-                        selectedBooks.removeAll(booksToSelect)
-                        if (selectedBooks.isEmpty()) {
-                            actionMode?.finish()
-                            multiSelection = false
-                        }
-                    }
-                }
-                notifyDataSetChanged()
+                toggleBooksSelectionByLetter(currentLetter)
             }
         }
     }
 
+    private fun toggleBooksSelectionByLetter(currentLetter: HomeRecyclerViewItem.Letter) {
+        val booksToSelect = findBooksThatStartWithSpecificLetter(currentLetter)
+        if (multiSelection) {
+            if (!selectedBooks.containsAll(booksToSelect)) {
+                addAllBook(booksToSelect)
+            } else {
+                selectedBooks.removeAll(booksToSelect)
+                if (selectedBooks.isEmpty()) {
+                    actionMode?.finish()
+                    multiSelection = false
+                }
+            }
+        }
+        notifyDataSetChanged()
+    }
+
+    private fun selectAllBooksStartingWithLetter(currentLetter: HomeRecyclerViewItem.Letter) {
+        val booksToSelect = findBooksThatStartWithSpecificLetter(currentLetter)
+        if (!multiSelection) {
+            multiSelection = true
+            actionMode = requireActivity.startActionMode(this@BookAdapter)
+            addAllBook(booksToSelect)
+        }
+        notifyDataSetChanged()
+    }
+
+    private fun findBooksThatStartWithSpecificLetter(currentLetter: HomeRecyclerViewItem.Letter): List<HomeRecyclerViewItem.Book> {
+        val booksToSelect = items.filterIsInstance<HomeRecyclerViewItem.Book>()
+            .filter { it.title.startsWith(currentLetter.char, ignoreCase = true) }
+        return booksToSelect
+    }
+
+    private fun addAllBook(booksToSelect: List<HomeRecyclerViewItem.Book>) {
+        booksToSelect.forEach { book ->
+            if (!selectedBooks.contains(book)) {
+                selectedBooks.add(book)
+            }
+        }
+    }
 
     private fun applyBookStyle(
         holder: HomeRecyclerViewHolder.BookViewHolder,
         currentBook: HomeRecyclerViewItem.Book
     ) {
-        val backgroundColor = if (selectedBooks.contains(currentBook)) {
-            R.color.md_theme_inversePrimary_mediumContrast
-        } else {
-            R.color.md_theme_background
-        }
-        val strokeColor = if (selectedBooks.contains(currentBook)) {
-
-            R.color.md_theme_inverseSurface
-        } else {
-            R.color.md_theme_scrim
-        }
+        val isSelected = selectedBooks.contains(currentBook)
+        val backgroundColor = if (isSelected) R.color.md_theme_inversePrimary_mediumContrast
+            else R.color.md_theme_background
+        val strokeColor = if (isSelected) R.color.md_theme_inverseSurface
+            else R.color.md_theme_scrim
         changeBookStyle(holder, backgroundColor, strokeColor)
     }
 
@@ -248,10 +244,27 @@ class BookAdapter(
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        if (selectedBooks.size > 2) {
+            buildWarningDialog()
+        } else {
+            deleteSelectedBooks()
+        }
+        return true
+    }
+
+    private fun buildWarningDialog() {
+        AlertDialog.Builder(requireActivity)
+            .setTitle("Are you sure?")
+            .setMessage("Books will be completely deleted.")
+            .setPositiveButton("Yes, sir") { _, _ -> deleteSelectedBooks() }
+            .setNegativeButton("Nope") { _, _ -> actionMode?.finish() }
+            .show()
+    }
+
+    private fun deleteSelectedBooks() {
         onDeleteBook(selectedBooks.map { it.id })
         selectedBooks.clear()
         finishActionIfListEmpty()
-        return true
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
