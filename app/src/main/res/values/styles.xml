@@ -58,7 +58,6 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:lineHeight">@dimen/button_line_height</item>
         <item name="android:includeFontPadding">false</item>
-<!--        <item name="android:background">@drawable/button_regular_background</item>-->
         <item name="android:letterSpacing">@dimen/button_letter_spacing</item>
     </style>
 

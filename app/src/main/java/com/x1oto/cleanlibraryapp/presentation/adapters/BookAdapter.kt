@@ -1,10 +1,13 @@
 package com.x1oto.cleanlibraryapp.presentation.adapters
 
+import android.app.Dialog
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -13,6 +16,7 @@ import androidx.viewbinding.ViewBinding
 import com.x1oto.cleanlibraryapp.R
 import com.x1oto.cleanlibraryapp.databinding.ItemBookBinding
 import com.x1oto.cleanlibraryapp.databinding.ItemLetterBinding
+import com.x1oto.cleanlibraryapp.presentation.mvvm.view.home.ReportBottomSheet
 
 
 class BookAdapter(
@@ -31,6 +35,8 @@ class BookAdapter(
     private var actionMode: ActionMode? = null
     private var multiSelection = false
     private val selectedBooks = arrayListOf<HomeRecyclerViewItem.Book>()
+
+    private var dialog: Dialog? = null
 
     fun setData(newList: List<HomeRecyclerViewItem>) {
         val diffUtil = DiffUtil(items, newList)
@@ -122,6 +128,11 @@ class BookAdapter(
                     false
                 }
             }
+
+            imageViewReport.setOnClickListener {
+                val modalBottomSheet = ReportBottomSheet()
+                modalBottomSheet.show(requireActivity.supportFragmentManager, "ModalBottomSheet")
+            }
         }
     }
 
@@ -187,9 +198,9 @@ class BookAdapter(
     ) {
         val isSelected = selectedBooks.contains(currentBook)
         val backgroundColor = if (isSelected) R.color.md_theme_inversePrimary_mediumContrast
-            else R.color.md_theme_background
+        else R.color.md_theme_background
         val strokeColor = if (isSelected) R.color.md_theme_inverseSurface
-            else R.color.md_theme_scrim
+        else R.color.md_theme_scrim
         changeBookStyle(holder, backgroundColor, strokeColor)
     }
 
@@ -244,7 +255,7 @@ class BookAdapter(
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-        if (selectedBooks.size > 2) {
+        if (selectedBooks.size >= 2) {
             buildWarningDialog()
         } else {
             deleteSelectedBooks()
@@ -253,12 +264,19 @@ class BookAdapter(
     }
 
     private fun buildWarningDialog() {
-        AlertDialog.Builder(requireActivity)
-            .setTitle("Are you sure?")
-            .setMessage("Books will be completely deleted.")
-            .setPositiveButton("Yes, sir") { _, _ -> deleteSelectedBooks() }
-            .setNegativeButton("Nope") { _, _ -> actionMode?.finish() }
-            .show()
+        dialog = Dialog(requireActivity)
+        dialog?.let { window ->
+            window.setContentView(R.layout.dialog_are_you_sure)
+            window.setCancelable(false)
+            window.findViewById<Button>(R.id.buttonDelete)?.setOnClickListener {
+                deleteSelectedBooks()
+                window.cancel()
+            }
+            window.findViewById<Button>(R.id.buttonCancel)?.setOnClickListener {
+                window.cancel()
+            }
+            window.show()
+        }
     }
 
     private fun deleteSelectedBooks() {

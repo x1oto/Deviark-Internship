@@ -30,6 +30,10 @@
     <string name="moderators_check_alert">Our moderators will check out your edits</string>
     <string name="send">Send</string>
     <string name="delete_favorite_book">Delete favorite book</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete 💀</string>
+    <string name="you_about_to_delete_a_bunch_of_items_without_possibility_of_recovery">You about to delete a bunch of items without possibility of recovery.</string>
 
 
     <plurals name="reviews_count">

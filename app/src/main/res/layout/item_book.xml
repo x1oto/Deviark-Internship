@@ -78,6 +78,16 @@
             app:layout_constraintEnd_toEndOf="@+id/textViewAuthor"
             app:layout_constraintTop_toBottomOf="@+id/textViewAuthor" />
 
+        <ImageView
+            android:id="@+id/imageViewReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewIdLabel"
+            app:layout_constraintEnd_toStartOf="@+id/textViewIdLabel"
+            app:layout_constraintTop_toTopOf="@+id/textViewIdLabel"
+            app:srcCompat="@drawable/ic_flag_24px" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
