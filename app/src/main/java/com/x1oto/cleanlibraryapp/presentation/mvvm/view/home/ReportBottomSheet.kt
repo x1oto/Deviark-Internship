@@ -1,6 +1,7 @@
 package com.x1oto.cleanlibraryapp.presentation.mvvm.view.home
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class ReportBottomSheet : BottomSheetDialogFragment() {
         val behavior = BottomSheetBehavior.from(bottomSheet!!)
 
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        behavior.peekHeight = 650
+        behavior.peekHeight = convertDpToPx()
 
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {}
@@ -28,7 +29,7 @@ class ReportBottomSheet : BottomSheetDialogFragment() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 binding.textView3.alpha = (1.0F - (slideOffset * 2))
                 binding.textView10.alpha = -(1.0F - (slideOffset * 2))
-                binding.textView7.alpha = -(1.0F - (slideOffset * 4))
+                binding.textView7.alpha = -(1.0F - (slideOffset * 3))
             }
         })
     }
@@ -42,4 +43,13 @@ class ReportBottomSheet : BottomSheetDialogFragment() {
         _binding = DialogModalReportBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    private fun convertDpToPx(dp: Int = 225): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            resources.displayMetrics
+        ).toInt()
+    }
+
 }
