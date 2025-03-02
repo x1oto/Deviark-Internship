@@ -7,10 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.x1oto.cleanlibraryapp.R
@@ -22,8 +21,15 @@ import com.x1oto.cleanlibraryapp.presentation.mvvm.view.home.ReportBottomSheet
 class BookAdapter(
     private val requireActivity: FragmentActivity,
     private val onBookClicked: (Long) -> Unit,
-    private val onDeleteBook: (List<Long>) -> Unit
+    private val onDeleteBook: (List<Long>) -> Unit,
+    private val onShowWarning: (() -> Unit) -> Unit,
+    private val onReportClicked: () -> Unit
 ) : RecyclerView.Adapter<BookAdapter.HomeRecyclerViewHolder>(), ActionMode.Callback {
+
+    private var items = listOf<HomeRecyclerViewItem>()
+    private var actionMode: ActionMode? = null
+    private var multiSelection = false
+    private val selectedBooks = arrayListOf<HomeRecyclerViewItem.Book>()
 
     sealed class HomeRecyclerViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -31,12 +37,32 @@ class BookAdapter(
         class BookViewHolder(val binding: ItemBookBinding) : HomeRecyclerViewHolder(binding)
     }
 
-    private var items = listOf<HomeRecyclerViewItem>()
-    private var actionMode: ActionMode? = null
-    private var multiSelection = false
-    private val selectedBooks = arrayListOf<HomeRecyclerViewItem.Book>()
+    inner class HomeOnSwipeCallback {
+        fun get(): ItemTouchHelper.Callback {
+            return object : ItemTouchHelper.Callback() {
+                override fun getMovementFlags(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
+                    return if (viewHolder is HomeRecyclerViewHolder.BookViewHolder) {
+                        makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+                    } else {
+                        makeMovementFlags(0, 0)
+                    }
+                }
 
-    private var dialog: Dialog? = null
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ) = false
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    onDeleteBook(listOf(viewHolder.itemView.tag as Long))
+                }
+            }
+        }
+    }
 
     fun setData(newList: List<HomeRecyclerViewItem>) {
         val diffUtil = DiffUtil(items, newList)
@@ -80,7 +106,7 @@ class BookAdapter(
                 setupBookUI(holder, currentBook)
                 applyBookStyle(holder, currentBook)
                 setupBookClickListeners(holder, currentBook)
-
+                holder.itemView.tag = currentBook.id
             }
         }
     }
@@ -129,10 +155,7 @@ class BookAdapter(
                 }
             }
 
-            imageViewReport.setOnClickListener {
-                val modalBottomSheet = ReportBottomSheet()
-                modalBottomSheet.show(requireActivity.supportFragmentManager, "ModalBottomSheet")
-            }
+            imageViewReport.setOnClickListener { onReportClicked() }
         }
     }
 
@@ -158,7 +181,7 @@ class BookAdapter(
             if (!selectedBooks.containsAll(booksToSelect)) {
                 addAllBook(booksToSelect)
             } else {
-                selectedBooks.removeAll(booksToSelect)
+                selectedBooks.removeAll(booksToSelect.toSet())
                 if (selectedBooks.isEmpty()) {
                     actionMode?.finish()
                     multiSelection = false
@@ -256,27 +279,13 @@ class BookAdapter(
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         if (selectedBooks.size >= 2) {
-            buildWarningDialog()
+            onShowWarning {
+                deleteSelectedBooks()
+            }
         } else {
             deleteSelectedBooks()
         }
         return true
-    }
-
-    private fun buildWarningDialog() {
-        dialog = Dialog(requireActivity)
-        dialog?.let { window ->
-            window.setContentView(R.layout.dialog_are_you_sure)
-            window.setCancelable(false)
-            window.findViewById<Button>(R.id.buttonDelete)?.setOnClickListener {
-                deleteSelectedBooks()
-                window.cancel()
-            }
-            window.findViewById<Button>(R.id.buttonCancel)?.setOnClickListener {
-                window.cancel()
-            }
-            window.show()
-        }
     }
 
     private fun deleteSelectedBooks() {

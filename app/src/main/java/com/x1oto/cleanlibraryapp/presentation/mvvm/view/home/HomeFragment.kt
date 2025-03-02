@@ -7,17 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.x1oto.cleanlibraryapp.R
 import com.x1oto.cleanlibraryapp.databinding.FragmentHomeBinding
 import com.x1oto.cleanlibraryapp.presentation.adapters.BookAdapter
-import com.x1oto.cleanlibraryapp.presentation.adapters.SwipeCallback
 import com.x1oto.cleanlibraryapp.presentation.mvvm.viewmodel.home.HomeViewModel
 import com.x1oto.cleanlibraryapp.presentation.utlis.toRecyclerViewItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,11 +28,10 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: HomeViewModel by viewModels()
-
     private lateinit var bookAdapter: BookAdapter
     private lateinit var query: String
+    private var dialog: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,20 +76,44 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToBookInfoFragment(bookId)
             findNavController().navigate(action)
         },
-        { ids ->
-            viewModel.deleteBookWithIds(ids)
-        })
+            { ids ->
+                viewModel.deleteBookWithIds(ids)
+            },
+            { deleteSelectedBooks ->
+                buildAlertDialog(deleteSelectedBooks)
+            },
+            {
+                buildBottomSheet()
+            })
 
         binding.recyclerViewBooks.adapter = bookAdapter
 
-        val swipeCallback = SwipeCallback { id ->
-            viewModel.deleteBookWithIds(listOf(id))
-        }
-
-        ItemTouchHelper(swipeCallback).attachToRecyclerView(binding.recyclerViewBooks)
+        ItemTouchHelper(
+            bookAdapter.HomeOnSwipeCallback().get()
+        ).attachToRecyclerView(binding.recyclerViewBooks)
     }
 
+    private fun buildBottomSheet() {
+        val modalBottomSheet = ReportBottomSheet()
+        modalBottomSheet.show(requireActivity().supportFragmentManager, "ModalBottomSheet")
+    }
 
+    private fun buildAlertDialog(deleteSelectedBooks: () -> Unit) {
+        dialog?.cancel()
+        dialog = Dialog(requireContext())
+        dialog?.let { window ->
+            window.setContentView(R.layout.dialog_are_you_sure)
+            window.setCancelable(false)
+            window.findViewById<Button>(R.id.buttonDelete)?.setOnClickListener {
+                window.cancel()
+                deleteSelectedBooks()
+            }
+            window.findViewById<Button>(R.id.buttonCancel)?.setOnClickListener {
+                window.cancel()
+            }
+            window.show()
+        }
+    }
 
     private fun subscribeObservables() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
