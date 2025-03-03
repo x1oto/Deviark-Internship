@@ -13,10 +13,10 @@ interface BookRepository {
     fun searchBooksByQuery(query: String, delayMs: Long): Flow<Result<List<Book>>>
     suspend fun updateBooks(updatedBooks: List<Book>, delayMs: Long): Result<Boolean>
     fun deleteBooks(ids: List<Long>)
-
     // Methods that we use in BookInfoFragment
     suspend fun fetchBookById(id: Long): Result<Book>
 
     // Methods that we use in Reviews
     fun fetchReviews(id: Long, delayMs: Long): Flow<Result<ReviewSummary>>
+    fun addReview(id: Long, nickname: String, rating: Double, text: String)
 }

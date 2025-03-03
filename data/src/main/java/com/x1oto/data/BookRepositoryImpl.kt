@@ -53,20 +53,20 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
     }.flowOn(Dispatchers.Default)
 
 
-    fun List<ReviewDTO>.toDomain(): List<Review> {
+    private fun List<ReviewDTO>.toDomain(): List<Review> {
         return map { Review(it.nickname, it.rating, it.text) }
     }
 
 
-    fun List<ReviewDTO>.toSummary(): ReviewSummary {
+    private fun List<ReviewDTO>.toSummary(): ReviewSummary {
         val domainReviews = this.toDomain()
         val average = if (isNotEmpty()) sumOf { it.rating } / size else 0.0
         return ReviewSummary(domainReviews, size, average)
     }
 
-    override fun getMostPopularBooks(term: Long): Flow<Result<List<Book>>> = flow {
+    override fun getMostPopularBooks(delayMs: Long): Flow<Result<List<Book>>> = flow {
         val chance = generateRandomInt()
-        delay(term)
+        delay(delayMs)
         when (chance) {
             in 0..100 -> {
                 emit(Result.success(books.sortedByDescending { it.borrowCount }))
@@ -77,9 +77,9 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         }
     }.flowOn(Dispatchers.Default)
 
-    override fun getLessPopularBooks(term: Long): Flow<Result<List<Book>>> = flow {
+    override fun getLessPopularBooks(delayMs: Long): Flow<Result<List<Book>>> = flow {
         val chance = generateRandomInt()
-        delay(term)
+        delay(delayMs)
         when (chance) {
             in 0..100 -> {
                 emit(Result.success(books.sortedBy { it.borrowCount }))
@@ -90,9 +90,9 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         }
     }.flowOn(Dispatchers.Default)
 
-    override fun searchBooksByQuery(query: String, term: Long): Flow<Result<List<Book>>> = flow {
+    override fun searchBooksByQuery(query: String, delayMs: Long): Flow<Result<List<Book>>> = flow {
         val chance = generateRandomInt()
-        delay(term)
+        delay(delayMs)
         when (chance) {
             in 0..100 -> {
                 emit(
@@ -137,6 +137,10 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
                 id == it.id
             }
         }
+    }
+
+    override fun addReview(id: Long, nickname: String, rating: Double, text: String) {
+        reviewsMap[id] = listOf(ReviewDTO(nickname = nickname, rating = rating, text = text))
     }
 
     override suspend fun fetchBookById(id: Long): Result<Book> {

@@ -72,7 +72,7 @@ object Database {
        Book(39, "THE LORD OF THE RINGS", "J.R.R. Tolkien", Genre.FANTASY, 1954, 12)
     )
 
-    val reviewsMap: Map<Long, List<ReviewDTO>> = mapOf(
+    val reviewsMap = mutableMapOf(
         1L to listOf(
             ReviewDTO("BookLover92", 4.5, "Чудова книга! Дуже сподобався стиль автора і глибина персонажів."),
             ReviewDTO("AlexReads", 3.8, "Цікаво, але трохи затягнуто. Друга половина книги здалася кращою.")
@@ -119,8 +119,4 @@ object Database {
             ReviewDTO("ComedyLover", 4.2, "Смішно і дотепно! Відмінний гумор.")
         )
     )
-
-
-
-
 }

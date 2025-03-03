@@ -31,7 +31,7 @@ class ReviewFragment : Fragment() {
 
     private lateinit var reviewAdapter: ReviewAdapter
 
-    lateinit var backPressedCallback: OnBackPressedCallback
+    private lateinit var backPressedCallback: OnBackPressedCallback
 
 
     override fun onCreateView(
@@ -86,7 +86,7 @@ class ReviewFragment : Fragment() {
             }
 
         }
-        activity?.onBackPressedDispatcher?.addCallback(this, backPressedCallback)
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
     }
 
     private fun initRecyclerView() {

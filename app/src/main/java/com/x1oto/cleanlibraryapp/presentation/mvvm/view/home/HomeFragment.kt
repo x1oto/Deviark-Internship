@@ -76,15 +76,15 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToBookInfoFragment(bookId)
             findNavController().navigate(action)
         },
-            { ids ->
-                viewModel.deleteBookWithIds(ids)
-            },
-            { deleteSelectedBooks ->
-                buildAlertDialog(deleteSelectedBooks)
-            },
-            {
-                buildBottomSheet()
-            })
+        { ids ->
+            viewModel.deleteBookWithIds(ids)
+        },
+        { deleteSelectedBooks ->
+            buildAlertDialog(deleteSelectedBooks)
+        },
+        { id ->
+            buildBottomSheet(id)
+        })
 
         binding.recyclerViewBooks.adapter = bookAdapter
 
@@ -93,8 +93,8 @@ class HomeFragment : Fragment() {
         ).attachToRecyclerView(binding.recyclerViewBooks)
     }
 
-    private fun buildBottomSheet() {
-        val modalBottomSheet = ReportBottomSheet()
+    private fun buildBottomSheet(id: Long) {
+        val modalBottomSheet = ReportBottomSheet(id)
         modalBottomSheet.show(requireActivity().supportFragmentManager, "ModalBottomSheet")
     }
 

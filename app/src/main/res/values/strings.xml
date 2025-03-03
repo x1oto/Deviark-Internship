@@ -34,6 +34,20 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete 💀</string>
     <string name="you_about_to_delete_a_bunch_of_items_without_possibility_of_recovery">You about to delete a bunch of items without possibility of recovery.</string>
+    <string name="reason">Reason</string>
+    <string name="submit">Submit</string>
+    <string name="enter_custom_report_reason">Enter custom report reason</string>
+    <string name="expand_to_enter_a_custom_reason">Expand to enter a custom reason</string>
+    <string name="choose_a_popular_reason_below">Choose a popular reason below</string>
+    <string name="poor_book_condition">Poor book condition</string>
+    <string name="book_is_shared_without_my_permission">Book is shared without my permission</string>
+    <string name="report">Report</string>
+    <string name="review">Review</string>
+    <string name="boring">Boring</string>
+    <string name="intresting_book_recommend">Intresting book, recommend!</string>
+    <string name="choose_a_popular_option">Choose a popular option</string>
+    <string name="expand_to_write_custom_review">Expand to write custom review</string>
+    <string name="write_custom_review">Write custom review</string>
 
 
     <plurals name="reviews_count">

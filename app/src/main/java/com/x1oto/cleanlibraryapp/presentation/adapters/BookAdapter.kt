@@ -1,12 +1,10 @@
 package com.x1oto.cleanlibraryapp.presentation.adapters
 
-import android.app.Dialog
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,7 +13,6 @@ import androidx.viewbinding.ViewBinding
 import com.x1oto.cleanlibraryapp.R
 import com.x1oto.cleanlibraryapp.databinding.ItemBookBinding
 import com.x1oto.cleanlibraryapp.databinding.ItemLetterBinding
-import com.x1oto.cleanlibraryapp.presentation.mvvm.view.home.ReportBottomSheet
 
 
 class BookAdapter(
@@ -23,7 +20,7 @@ class BookAdapter(
     private val onBookClicked: (Long) -> Unit,
     private val onDeleteBook: (List<Long>) -> Unit,
     private val onShowWarning: (() -> Unit) -> Unit,
-    private val onReportClicked: () -> Unit
+    private val onReviewClicked: (Long) -> Unit
 ) : RecyclerView.Adapter<BookAdapter.HomeRecyclerViewHolder>(), ActionMode.Callback {
 
     private var items = listOf<HomeRecyclerViewItem>()
@@ -155,7 +152,7 @@ class BookAdapter(
                 }
             }
 
-            imageViewReport.setOnClickListener { onReportClicked() }
+            imageViewReview.setOnClickListener { onReviewClicked(currentBook.id) }
         }
     }
 
