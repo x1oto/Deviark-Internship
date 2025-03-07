@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.dagger.hilt)
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -35,12 +36,19 @@ android {
 }
 
 dependencies {
-    // Видалили всі зайві депенденсі.
-    // І додали :domain
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(project(":domain"))
+    implementation(libs.retrofit)
+
+    // Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Retrofit lib to use Kotlin Serialization as Converter
+    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 }
 
 kapt {

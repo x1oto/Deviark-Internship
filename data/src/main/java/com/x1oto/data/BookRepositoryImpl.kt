@@ -1,16 +1,20 @@
 package com.x1oto.data
 
+import android.util.Log
 import com.x1oto.data.Database.books
 import com.x1oto.data.Database.reviewsMap
 import com.x1oto.data.constants.Constants.FETCH_BOOKS_ERROR
 import com.x1oto.data.constants.Constants.FETCH_ONE_BOOK_ERROR
 import com.x1oto.data.constants.Constants.FETCH_POPULAR_BOOKS_ERROR
 import com.x1oto.data.constants.Constants.UPLOAD_BOOKS_ERROR
+import com.x1oto.data.model.BookDTO
 import com.x1oto.domain.repositories.BookRepository
 import com.x1oto.domain.model.Book
 import com.x1oto.data.model.ReviewDTO
+import com.x1oto.data.remote.BookAPI
 import com.x1oto.domain.model.Review
 import com.x1oto.domain.model.ReviewSummary
+import com.x1oto.domain.utils.Genre
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +24,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.random.Random
 
-class BookRepositoryImpl @Inject constructor() : BookRepository {
+class BookRepositoryImpl @Inject constructor(private val bookAPI: BookAPI) : BookRepository {
 
     override suspend fun getRandomBook(): Book {
         delay(300)
@@ -34,6 +38,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
             in 0..100 -> {
                 emit(Result.success(books))
             }
+
             else -> {
                 emit(Result.failure(Exception(FETCH_BOOKS_ERROR)))
             }
@@ -44,7 +49,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         delay(delayMs)
         val specific = reviewsMap[id]
 
-        if(specific != null) {
+        if (specific != null) {
             emit(Result.success(specific.toSummary()))
         } else {
             emit(Result.failure(Exception("No reviews for this book.")))
@@ -71,6 +76,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
             in 0..100 -> {
                 emit(Result.success(books.sortedByDescending { it.borrowCount }))
             }
+
             else -> {
                 emit(Result.failure(Exception(FETCH_POPULAR_BOOKS_ERROR)))
             }
@@ -84,6 +90,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
             in 0..100 -> {
                 emit(Result.success(books.sortedBy { it.borrowCount }))
             }
+
             else -> {
                 emit(Result.failure(Exception(FETCH_POPULAR_BOOKS_ERROR)))
             }
@@ -104,6 +111,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
                     )
                 )
             }
+
             else -> {
                 emit(Result.failure(Exception("Error searching books by query")))
             }
@@ -146,10 +154,16 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
     override suspend fun fetchBookById(id: Long): Result<Book> {
         delay(600)
         val foundedBook = books.find { it.id == id }
-        return when(foundedBook) {
+        return when (foundedBook) {
             null -> Result.failure(Exception(FETCH_ONE_BOOK_ERROR))
             else -> Result.success(foundedBook)
         }
+    }
+
+    override suspend fun testRetrofitRequests() {
+        Log.d("Retrofit", "testRetrofitRequests: ${bookAPI.getFirstBook()}")
+        Log.d("Retrofit", "testRetrofitRequests: ${bookAPI.getBooksDesc("desc")}")
+//        Log.d("Retrofit", "testRetrofitRequests: ${bookAPI.sendRandomBook(BookDTO(id = Random.nextLong(from = 20, until = 50), title = "", author = "Test", genre = Genre.CLASSIC, year = 344, borrowCount = 0, isBorrowed = false, lastBorrowedTimestamp = 0))}")
     }
 
     private fun generateRandomInt() = Random.nextInt(until = 100)

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:clipToPadding="false"
+    android:padding="16dp"
     tools:context=".presentation.mvvm.view.home.HomeFragment">
 
     <Button
@@ -30,9 +30,9 @@
         android:id="@+id/recyclerViewBooks"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="visible"
         android:layout_marginStart="-16dp"
         android:layout_marginEnd="-16dp"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/buttonAddBook"
         app:layout_constraintEnd_toEndOf="parent"

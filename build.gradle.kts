@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.kotlin.kapt) apply false
     alias(libs.plugins.dagger.hilt) apply false
     alias(libs.plugins.androidx.navigation.safeargs) apply false
+    kotlin("plugin.serialization") version "2.1.10" apply  false
 }

@@ -1,4 +1,4 @@
-package com.x1oto.cleanlibraryapp.di
+package com.x1oto.data.di
 
 import com.x1oto.data.BookRepositoryImpl
 import com.x1oto.domain.repositories.BookRepository

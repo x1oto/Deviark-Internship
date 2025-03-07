@@ -48,6 +48,7 @@
     <string name="choose_a_popular_option">Choose a popular option</string>
     <string name="expand_to_write_custom_review">Expand to write custom review</string>
     <string name="write_custom_review">Write custom review</string>
+    <string name="fetch_online">Fetch Online</string>
 
 
     <plurals name="reviews_count">

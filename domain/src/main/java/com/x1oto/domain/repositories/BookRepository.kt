@@ -15,6 +15,7 @@ interface BookRepository {
     fun deleteBooks(ids: List<Long>)
     // Methods that we use in BookInfoFragment
     suspend fun fetchBookById(id: Long): Result<Book>
+    suspend fun testRetrofitRequests()
 
     // Methods that we use in Reviews
     fun fetchReviews(id: Long, delayMs: Long): Flow<Result<ReviewSummary>>
